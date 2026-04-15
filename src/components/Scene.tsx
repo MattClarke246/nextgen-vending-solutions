@@ -50,10 +50,11 @@ export function Scene({ scrollProgress, customization }: SceneProps) {
 
         <Suspense fallback={null}>
           <VendingMachine scrollProgress={scrollProgress} customization={customization} />
-          {/* City-night HDRI-like env for metallic reflections */}
-          <Environment preset="city" />
+          {/* Studio HDRI env for clean, smooth luxury reflections with no background 'static' pattern */}
+          <Environment preset="studio" />
         </Suspense>
 
+        {/* High-res shadows to remove any dithering/static grain */}
         <ContactShadows
           position={[0, -2.6, 0]}
           opacity={0.55}
@@ -61,6 +62,7 @@ export function Scene({ scrollProgress, customization }: SceneProps) {
           blur={3.5}
           far={5}
           color="#000818"
+          resolution={1024}
         />
       </Canvas>
     </div>
