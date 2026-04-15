@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber';
-import { PerspectiveCamera, Environment, ContactShadows, Sparkles } from '@react-three/drei';
+import { PerspectiveCamera, ContactShadows } from '@react-three/drei';
 import { VendingMachine } from './VendingMachine';
 import { Suspense } from 'react';
 
@@ -21,11 +21,10 @@ export function Scene({ scrollProgress, customization }: SceneProps) {
         <pointLight position={[-10, -10, -10]} intensity={2} color="#0033ff" />
         <pointLight position={[0, 0, 5]} intensity={1.5} color="#00e5ff" />
         
-        <Sparkles count={150} scale={12} size={1} speed={0.1} opacity={0.4} color="#00e5ff" noise={0.1} />
+        <ambientLight intensity={1.2} color="#ffffff" />
         
         <Suspense fallback={null}>
           <VendingMachine scrollProgress={scrollProgress} customization={customization} />
-          <Environment preset="city" environmentIntensity={0.2} />
         </Suspense>
 
         <ContactShadows 

@@ -87,17 +87,13 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
         <group ref={doorRef} position={[0.75, 0, 0.5]}>
           <group position={[-0.75, 0, 0]}>
             {/* Glass Front */}
-            <RoundedBox args={[1.3, 2, 0.05]} radius={0.02} smoothness={4} position={[0, 0.1, 0.01]}>
-              <meshPhysicalMaterial 
+            <RoundedBox args={[1.1, 2.1, 0.05]} radius={0.02} smoothness={4} position={[0, 0, 0]}>
+              <meshStandardMaterial 
                 transparent 
-                opacity={0.1} 
-                transmission={0.9} 
-                thickness={1} 
+                opacity={0.3} 
                 roughness={0.1} 
-                metalness={0.2}
-                clearcoat={1}
-                clearcoatRoughness={0.1}
-                color="#0066ff"
+                metalness={0.5}
+                color="#00e5ff"
               />
             </RoundedBox>
             {/* Door Frame (Hollow) */}

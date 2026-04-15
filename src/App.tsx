@@ -50,7 +50,7 @@ export default function App() {
         <div className="flex items-center gap-2.5 font-extrabold text-xl tracking-[0.2em] uppercase pointer-events-auto">
           NEXTGEN<span className="text-accent">•</span>VENDING
         </div>
-        <ul className="hidden md:flex gap-8 text-[13px] uppercase tracking-widest text-text-muted pointer-events-auto">
+        <ul className="hidden md:flex gap-8 text-[13px] font-bold uppercase tracking-widest text-[#00e5ff] pointer-events-auto">
           <li className="hover:text-white cursor-pointer transition-colors">Services</li>
           <li className="hover:text-white cursor-pointer transition-colors">Solutions</li>
           <li className="hover:text-white cursor-pointer transition-colors">Clients</li>
@@ -294,7 +294,7 @@ export default function App() {
 function ServiceItem({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
     <motion.div 
-      className="flex gap-6 p-6 rounded-2xl transition-all bg-[rgba(4,11,22,0.6)] border border-border hover:border-accent hover:shadow-[0_0_20px_rgba(0,229,255,0.2)] group cursor-pointer backdrop-blur-md"
+      className="flex gap-6 p-6 rounded-2xl transition-all bg-[#040b16] border border-border hover:border-accent hover:shadow-[0_0_20px_rgba(0,229,255,0.2)] group cursor-pointer"
       whileHover={{ scale: 1.02 }}
     >
       <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-accent/10 border border-border shadow-sm flex items-center justify-center text-accent group-hover:text-black group-hover:bg-accent group-hover:shadow-[0_0_15px_rgba(0,229,255,0.6)] transition-colors">
