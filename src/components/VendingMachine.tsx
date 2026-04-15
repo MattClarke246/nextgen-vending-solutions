@@ -48,17 +48,21 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
     const isMobile = window.innerWidth < 1024;
     // Pin layout strictly to the right side of the screen on desktop to clear text completely.
     groupRef.current.position.x = isMobile ? 0 : 1.4;
-    groupRef.current.position.y = (isMobile ? 0 : -0.3) + exitY;
-    groupRef.current.scale.setScalar(isMobile ? 0.65 : 1.0);
+    groupRef.current.position.y = (isMobile ? 0.6 : -0.3) + exitY;
+    groupRef.current.scale.setScalar(isMobile ? 0.55 : 1.0);
 
-    // Explode parts - massively throw the components outward to avoid center-crush
-    if (topRef.current)    topRef.current.position.y    =  1.3 + explodeAmount * 0.9;
-    if (bottomRef.current) bottomRef.current.position.y = -1.3 - explodeAmount * 0.9;
-    if (leftRef.current)   leftRef.current.position.x   = -0.75 - explodeAmount * 1.3;
-    if (rightRef.current)  rightRef.current.position.x  =  0.75 + explodeAmount * 1.3;
-    if (backRef.current)   backRef.current.position.z   = -0.45 - explodeAmount * 0.6;
-    if (racksRef.current)  racksRef.current.position.z  =  explodeAmount * 0.6;
-    if (coolingRef.current) coolingRef.current.position.y = -1.3 - explodeAmount * 1.3;
+    // Explode parts - restrict outward throw on mobile so it doesn't clip off small screens
+    const explodeX = explodeAmount * (isMobile ? 0.4 : 1.3);
+    const explodeY = explodeAmount * (isMobile ? 0.4 : 0.9);
+    const explodeZ = explodeAmount * (isMobile ? 0.3 : 0.6);
+
+    if (topRef.current)    topRef.current.position.y    =  1.3 + explodeY;
+    if (bottomRef.current) bottomRef.current.position.y = -1.3 - explodeY;
+    if (leftRef.current)   leftRef.current.position.x   = -0.75 - explodeX;
+    if (rightRef.current)  rightRef.current.position.x  =  0.75 + explodeX;
+    if (backRef.current)   backRef.current.position.z   = -0.45 - explodeZ;
+    if (racksRef.current)  racksRef.current.position.z  =  explodeZ;
+    if (coolingRef.current) coolingRef.current.position.y = -1.3 - explodeY * 1.5;
 
     // Door forward
     const doorTarget = isOpen ? Math.PI * 0.6 : 0;

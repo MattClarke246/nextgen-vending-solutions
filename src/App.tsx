@@ -114,66 +114,68 @@ export default function App() {
       {/* ─────────────────────────────────────────────
           CUSTOMIZATION PANEL
           ───────────────────────────────────────────── */}
-      <div className="fixed bottom-8 right-8 z-50">
+      <div className="fixed bottom-6 left-6 right-6 md:left-auto md:w-auto md:bottom-8 md:right-8 z-50 flex justify-center pointer-events-none">
         <AnimatePresence>
           <motion.div
             initial={{ opacity: 0, x: 24, scale: 0.95 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ ...easeSpring, delay: 0.6 }}
-            className="config-panel p-5 w-56 space-y-5"
+            className="config-panel p-4 md:p-5 w-full max-w-[320px] md:max-w-none md:w-56 pointer-events-auto"
           >
-            <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#4DA6FF]">
+            <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#4DA6FF] mb-4">
               <Palette className="h-3 w-3" />
               Configure
             </div>
 
-            {/* Color swatches */}
-            <div className="space-y-2">
-              <p className="text-[9px] font-bold uppercase tracking-widest text-[#5A5A70]">Finish</p>
-              <div className="flex gap-2">
-                {colors.map(({ hex, label }) => (
-                  <motion.button
-                    key={hex}
-                    title={label}
-                    whileHover={{ scale: 1.15 }}
-                    whileTap={{ scale: 0.92 }}
-                    onClick={() => setCustomization(p => ({ ...p, brandColor: hex }))}
-                    className="relative w-7 h-7 rounded-full transition-all"
-                    style={{ backgroundColor: hex }}
-                  >
-                    {customization.brandColor === hex && (
-                      <motion.span
-                        layoutId="swatch-ring"
-                        className="absolute inset-0 rounded-full"
-                        style={{
-                          boxShadow: '0 0 0 2px #08080C, 0 0 0 3.5px #0A84FF'
-                        }}
-                      />
-                    )}
-                  </motion.button>
-                ))}
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-5 md:gap-5">
+              {/* Color swatches */}
+              <div className="space-y-2">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-[#5A5A70]">Finish</p>
+                <div className="flex flex-wrap gap-2">
+                  {colors.map(({ hex, label }) => (
+                    <motion.button
+                      key={hex}
+                      title={label}
+                      whileHover={{ scale: 1.15 }}
+                      whileTap={{ scale: 0.92 }}
+                      onClick={() => setCustomization(p => ({ ...p, brandColor: hex }))}
+                      className="relative w-6 h-6 md:w-7 md:h-7 rounded-full transition-all"
+                      style={{ backgroundColor: hex }}
+                    >
+                      {customization.brandColor === hex && (
+                        <motion.span
+                          layoutId="swatch-ring"
+                          className="absolute inset-0 rounded-full"
+                          style={{
+                            boxShadow: '0 0 0 2px #08080C, 0 0 0 3.5px #0A84FF'
+                          }}
+                        />
+                      )}
+                    </motion.button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Product Mix */}
-            <div className="space-y-2">
-              <p className="text-[9px] font-bold uppercase tracking-widest text-[#5A5A70]">Product Mix</p>
-              <div className="grid grid-cols-3 gap-1">
-                {(['drinks', 'snacks', 'mixed'] as const).map((type) => (
-                  <motion.button
-                    key={type}
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setCustomization(p => ({ ...p, productType: type }))}
-                    className={`py-1.5 rounded-xl text-[9px] font-bold capitalize transition-all ${
-                      customization.productType === type
-                        ? 'bg-[#0A84FF] text-white shadow-lg shadow-[#0A84FF]/30'
-                        : 'bg-white/5 text-[#5A5A70] border border-white/07 hover:text-[#A0A0B0]'
-                    }`}
-                  >
-                    {type}
-                  </motion.button>
-                ))}
+              {/* Product Mix */}
+              <div className="space-y-2">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-[#5A5A70]">Product Mix</p>
+                <div className="grid grid-cols-1 gap-1">
+                  {(['drinks', 'snacks', 'mixed'] as const).map((type) => (
+                    <motion.button
+                      key={type}
+                      whileHover={{ scale: 1.04 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setCustomization(p => ({ ...p, productType: type }))}
+                      className={`py-1 md:py-1.5 rounded-lg md:rounded-xl text-[9px] font-bold capitalize transition-all ${
+                        customization.productType === type
+                          ? 'bg-[#0A84FF] text-white shadow-lg shadow-[#0A84FF]/30'
+                          : 'bg-white/5 text-[#5A5A70] border border-white/07 hover:text-[#A0A0B0]'
+                      }`}
+                    >
+                      {type}
+                    </motion.button>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -190,12 +192,12 @@ export default function App() {
       {/* ═════════════════════════════════════════════
           HERO SECTION
           ═════════════════════════════════════════════ */}
-      <section className="relative h-screen flex items-center px-6 lg:px-20 z-10 pointer-events-none">
+      <section className="relative min-h-[100svh] flex flex-col justify-end md:justify-center pb-40 md:pb-0 px-6 lg:px-20 z-10 pointer-events-none">
         <motion.div
           variants={stagger}
           initial="hidden"
           animate="visible"
-          className="max-w-[480px] pointer-events-auto space-y-7"
+          className="max-w-[480px] pointer-events-auto space-y-6 md:space-y-7 bg-[#08080C]/70 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-0 rounded-3xl border border-white/5 md:border-transparent"
         >
           <motion.div variants={fadeUp}>
             <span className="badge-sleek">
@@ -258,9 +260,9 @@ export default function App() {
       {/* ═════════════════════════════════════════════
           SERVICES SECTION
           ═════════════════════════════════════════════ */}
-      <section className="relative min-h-screen py-36 px-6 lg:px-20 z-10 pointer-events-none">
+      <section className="relative min-h-[100svh] flex flex-col justify-end md:justify-center py-24 md:py-36 px-6 lg:px-20 z-10 pointer-events-none">
         <motion.div
-          className="max-w-[480px] pointer-events-auto space-y-10"
+          className="max-w-[480px] pointer-events-auto space-y-8 md:space-y-10 bg-[#08080C]/70 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-0 rounded-3xl border border-white/5 md:border-transparent"
           variants={stagger}
           initial="hidden"
           whileInView="visible"
@@ -326,9 +328,9 @@ export default function App() {
       {/* ═════════════════════════════════════════════
           ENGINEERED FOR EXCELLENCE
           ═════════════════════════════════════════════ */}
-      <section className="relative min-h-screen py-36 px-6 lg:px-20 z-10 pointer-events-none">
+      <section className="relative min-h-[100svh] flex flex-col justify-end md:justify-center py-24 md:py-36 px-6 lg:px-20 z-10 pointer-events-none">
         <motion.div
-          className="max-w-[480px] pointer-events-auto space-y-10"
+          className="max-w-[480px] pointer-events-auto space-y-8 md:space-y-10 bg-[#08080C]/70 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-0 rounded-3xl border border-white/5 md:border-transparent"
           variants={stagger}
           initial="hidden"
           whileInView="visible"
@@ -377,7 +379,7 @@ export default function App() {
       {/* ═════════════════════════════════════════════
           BOOKING SECTION
           ═════════════════════════════════════════════ */}
-      <section className="relative min-h-screen py-36 px-6 lg:px-20 z-10 flex items-center justify-center pointer-events-none">
+      <section className="relative min-h-[100svh] py-24 md:py-36 px-6 lg:px-20 z-10 flex items-center justify-center pointer-events-none">
         <motion.div
           className="book-card w-full max-w-xl pointer-events-auto"
           initial={{ opacity: 0, y: 32, scale: 0.98 }}
