@@ -45,6 +45,9 @@ export default function App() {
 
   return (
     <div ref={containerRef} className="relative bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#132c52]/30 via-[#040b16]/95 to-[#040b16]">
+      {/* CSS Cyber Grid */}
+      <div className="fixed inset-0 pointer-events-none bg-cyber z-0"></div>
+
       {/* Navigation */}
       <nav className="fixed top-0 left-0 w-full px-6 lg:px-16 py-10 flex justify-between items-center z-50 pointer-events-none">
         <div className="flex items-center gap-2.5 font-extrabold text-xl tracking-[0.2em] uppercase pointer-events-auto">

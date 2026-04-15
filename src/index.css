@@ -40,6 +40,13 @@
   background: linear-gradient(135deg, rgba(10, 25, 47, 0.95) 0%, rgba(4, 11, 22, 0.95) 100%);
 }
 
+.bg-cyber {
+  background-image: 
+    linear-gradient(to right, rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
