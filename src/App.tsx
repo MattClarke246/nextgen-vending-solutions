@@ -28,7 +28,7 @@ export default function App() {
     brandColor: string;
     productType: 'drinks' | 'snacks' | 'mixed';
   }>({
-    brandColor: '#040b16',
+    brandColor: '#E3E4E5',
     productType: 'mixed'
   });
 
@@ -77,7 +77,7 @@ export default function App() {
             <div className="space-y-3">
               <Label className="text-[10px] uppercase tracking-wider text-text-muted">Machine Finish</Label>
               <div className="flex gap-2">
-                {['#040b16', '#0a192f', '#0f172a', '#00e5ff'].map((color) => (
+                {['#E3E4E5', '#5C5C5F', '#2E3641', '#E00021'].map((color) => (
                   <button
                     key={color}
                     onClick={() => setCustomization(prev => ({ ...prev, brandColor: color }))}

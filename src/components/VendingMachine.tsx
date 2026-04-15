@@ -67,15 +67,35 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
       onPointerOut={() => setHovered(false)}
     >
       <Float speed={isOpen ? 0 : 2} rotationIntensity={isOpen ? 0 : 0.5} floatIntensity={isOpen ? 0 : 0.5}>
-        {/* Main Body */}
-        <RoundedBox args={[1.5, 2.5, 1]} radius={0.08} smoothness={8} position={[0, 0, 0]} castShadow>
-          <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
-        </RoundedBox>
+        {/* Hollow Main Body */}
+        <group>
+          {/* Back panel */}
+          <RoundedBox args={[1.5, 2.5, 0.2]} radius={0.08} smoothness={8} position={[0, 0, -0.4]} castShadow>
+            <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
+          </RoundedBox>
+          {/* Left panel */}
+          <RoundedBox args={[0.2, 2.5, 0.8]} radius={0.08} smoothness={8} position={[-0.65, 0, 0.1]} castShadow>
+            <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
+          </RoundedBox>
+          {/* Right panel */}
+          <RoundedBox args={[0.2, 2.5, 0.8]} radius={0.08} smoothness={8} position={[0.65, 0, 0.1]} castShadow>
+            <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
+          </RoundedBox>
+          {/* Top panel */}
+          <RoundedBox args={[1.1, 0.2, 0.8]} radius={0.08} smoothness={8} position={[0, 1.15, 0.1]} castShadow>
+            <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
+          </RoundedBox>
+          {/* Bottom panel */}
+          <RoundedBox args={[1.1, 0.2, 0.8]} radius={0.08} smoothness={8} position={[0, -1.15, 0.1]} castShadow>
+            <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
+          </RoundedBox>
+        </group>
 
-        {/* Interior */}
-        <RoundedBox args={[1.35, 2.35, 0.8]} radius={0.04} smoothness={4} position={[0, 0, -0.05]}>
-          <meshStandardMaterial color="#02040a" roughness={0.6} />
-        </RoundedBox>
+        {/* Interior Backdrop */}
+        <mesh position={[0, 0, -0.29]}>
+          <planeGeometry args={[1.3, 2.3]} />
+          <meshStandardMaterial color="#EAEAEA" roughness={0.2} metalness={0.5} />
+        </mesh>
 
         {/* Interior LED Light Strip */}
         <mesh position={[0, 1.15, 0.2]}>
@@ -179,7 +199,7 @@ function Racks({ scrollProgress, productType }: { scrollProgress: any, productTy
     return [0.6, 0.2, -0.2, -0.6].map((y, i) => (
       <group key={i} position={[0, y, 0.1]}>
         <RoundedBox args={[1.2, 0.02, 0.6]} radius={0.01} smoothness={4}>
-          <meshStandardMaterial color="#112233" metalness={0.6} roughness={0.1} />
+          <meshStandardMaterial color="#FFFFFF" metalness={0.8} roughness={0.1} />
         </RoundedBox>
         {[-0.4, -0.2, 0, 0.2, 0.4].map((x, j) => {
           const isDrink = productType === 'drinks' || (productType === 'mixed' && i < 2);
@@ -191,10 +211,9 @@ function Racks({ scrollProgress, productType }: { scrollProgress: any, productTy
                 <boxGeometry args={[0.12, 0.18, 0.05]} />
               )}
               <meshStandardMaterial 
-                color={j % 3 === 0 ? "#00e5ff" : j % 3 === 1 ? "#ffffff" : "#0f172a"} 
-                metalness={isDrink ? 0.8 : 0.2}
+                color={j % 3 === 0 ? "#FF3B30" : j % 3 === 1 ? "#34C759" : "#007AFF"} 
+                metalness={isDrink ? 0.8 : 0.1}
                 roughness={0.2}
-                emissive={j % 3 === 0 ? "#002244" : "#000000"}
               />
             </mesh>
           );
