@@ -76,7 +76,7 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
         {/* Interior */}
         <mesh position={[0, 0, -0.1]}>
           <boxGeometry args={[1.3, 2.3, 0.8]} />
-          <meshStandardMaterial color="#050505" />
+          <meshStandardMaterial color="#f0f0f5" />
         </mesh>
 
         {/* Door Group (Glass + Frame) */}
@@ -95,11 +95,29 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
                 color="#88ccff"
               />
             </mesh>
-            {/* Door Frame */}
-            <mesh position={[0, 0, 0]}>
-              <boxGeometry args={[1.5, 2.5, 0.1]} />
-              <meshStandardMaterial color="#222" metalness={0.9} roughness={0.1} />
-            </mesh>
+            {/* Door Frame (Hollow) */}
+            <group position={[0, 0, 0]}>
+              {/* Left */}
+              <mesh position={[-0.65, 0, 0]}>
+                <boxGeometry args={[0.2, 2.5, 0.1]} />
+                <meshStandardMaterial color="#e5e5ea" metalness={0.8} roughness={0.2} />
+              </mesh>
+              {/* Right */}
+              <mesh position={[0.65, 0, 0]}>
+                <boxGeometry args={[0.2, 2.5, 0.1]} />
+                <meshStandardMaterial color="#e5e5ea" metalness={0.8} roughness={0.2} />
+              </mesh>
+              {/* Top */}
+              <mesh position={[0, 1.15, 0]}>
+                <boxGeometry args={[1.1, 0.2, 0.1]} />
+                <meshStandardMaterial color="#e5e5ea" metalness={0.8} roughness={0.2} />
+              </mesh>
+              {/* Bottom */}
+              <mesh position={[0, -1.15, 0]}>
+                <boxGeometry args={[1.1, 0.2, 0.1]} />
+                <meshStandardMaterial color="#e5e5ea" metalness={0.8} roughness={0.2} />
+              </mesh>
+            </group>
             
             {/* Payment Panel (Attached to door) */}
             <PaymentPanel scrollProgress={scrollProgress} />
@@ -131,11 +149,11 @@ function PaymentPanel({ scrollProgress }: { scrollProgress: any }) {
   return (
     <mesh ref={ref} position={[0.6, 0.5, 0.06]}>
       <boxGeometry args={[0.2, 0.8, 0.1]} />
-      <meshStandardMaterial color="#333" metalness={0.9} roughness={0.1} />
+      <meshStandardMaterial color="#1d1d1f" metalness={0.9} roughness={0.1} />
       {/* Screen */}
-      <mesh position={[0, 0.2, 0.06]}>
+      <mesh position={[0, 0.2, 0.051]}>
         <planeGeometry args={[0.15, 0.2]} />
-        <meshStandardMaterial color="#00f0ff" emissive="#00f0ff" emissiveIntensity={2} />
+        <meshStandardMaterial color="#0071e3" emissive="#0071e3" emissiveIntensity={1.5} />
       </mesh>
     </mesh>
   );
@@ -159,8 +177,8 @@ function Racks({ scrollProgress, productType }: { scrollProgress: any, productTy
     return [0.6, 0.2, -0.2, -0.6].map((y, i) => (
       <group key={i} position={[0, y, 0.1]}>
         <mesh>
-          <boxGeometry args={[1.2, 0.05, 0.6]} />
-          <meshStandardMaterial color="#222" />
+          <boxGeometry args={[1.2, 0.02, 0.6]} />
+          <meshStandardMaterial color="#d1d1d6" metalness={0.4} roughness={0.3} />
         </mesh>
         {[-0.4, -0.2, 0, 0.2, 0.4].map((x, j) => {
           const isDrink = productType === 'drinks' || (productType === 'mixed' && i < 2);
@@ -172,7 +190,7 @@ function Racks({ scrollProgress, productType }: { scrollProgress: any, productTy
                 <boxGeometry args={[0.12, 0.18, 0.05]} />
               )}
               <meshStandardMaterial 
-                color={j % 3 === 0 ? "#00f0ff" : j % 3 === 1 ? "#ffffff" : "#333"} 
+                color={j % 3 === 0 ? "#0071e3" : j % 3 === 1 ? "#8e8e93" : "#1d1d1f"} 
                 metalness={isDrink ? 0.8 : 0.2}
                 roughness={0.2}
               />

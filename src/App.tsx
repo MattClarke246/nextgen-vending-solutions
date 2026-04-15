@@ -30,7 +30,7 @@ export default function App() {
     brandColor: string;
     productType: 'drinks' | 'snacks' | 'mixed';
   }>({
-    brandColor: '#f8fafc',
+    brandColor: '#fdfdfd',
     productType: 'mixed'
   });
 
@@ -53,10 +53,10 @@ export default function App() {
           NEXTGEN<span className="text-accent">•</span>VENDING
         </div>
         <ul className="hidden md:flex gap-8 text-[13px] uppercase tracking-widest text-text-muted pointer-events-auto">
-          <li className="hover:text-white cursor-pointer transition-colors">Services</li>
-          <li className="hover:text-white cursor-pointer transition-colors">Solutions</li>
-          <li className="hover:text-white cursor-pointer transition-colors">Clients</li>
-          <li className="hover:text-white cursor-pointer transition-colors">Support</li>
+          <li className="hover:text-[#1d1d1f] cursor-pointer transition-colors">Services</li>
+          <li className="hover:text-[#1d1d1f] cursor-pointer transition-colors">Solutions</li>
+          <li className="hover:text-[#1d1d1f] cursor-pointer transition-colors">Clients</li>
+          <li className="hover:text-[#1d1d1f] cursor-pointer transition-colors">Support</li>
         </ul>
       </nav>
 
@@ -78,7 +78,7 @@ export default function App() {
             <div className="space-y-3">
               <Label className="text-[10px] uppercase tracking-wider text-text-muted">Machine Finish</Label>
               <div className="flex gap-2">
-                {['#f8fafc', '#0f172a', '#00f0ff', '#1e293b'].map((color) => (
+                {['#fdfdfd', '#f5f5f7', '#e5e5ea', '#1d1d1f'].map((color) => (
                   <button
                     key={color}
                     onClick={() => setCustomization(prev => ({ ...prev, brandColor: color }))}
@@ -248,15 +248,15 @@ export default function App() {
             <div className="grid md:grid-cols-2 gap-5">
               <div className="space-y-2">
                 <Label htmlFor="business" className="text-[11px] uppercase tracking-wider text-text-muted">Business Name</Label>
-                <Input id="business" placeholder="Enter company name" className="bg-white/5 border-border focus:border-accent h-12" />
+                <Input id="business" placeholder="Enter company name" className="bg-black/5 border-border focus:border-accent h-12" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="service" className="text-[11px] uppercase tracking-wider text-text-muted">Service Type</Label>
                 <Select>
-                  <SelectTrigger className="bg-white/5 border-border h-12">
+                  <SelectTrigger className="bg-black/5 border-border h-12">
                     <SelectValue placeholder="Select a service" />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#0c0c0e] border-border text-white">
+                  <SelectContent className="bg-white border-border text-[#1d1d1f]">
                     <SelectItem value="install">Hardware Installation</SelectItem>
                     <SelectItem value="inventory">Restocking & Managed Inventory</SelectItem>
                     <SelectItem value="branding">Custom Branding</SelectItem>
@@ -267,7 +267,7 @@ export default function App() {
             
             <div className="space-y-2">
               <Label htmlFor="email" className="text-[11px] uppercase tracking-wider text-text-muted">Contact Email</Label>
-              <Input id="email" type="email" placeholder="name@company.com" className="bg-white/5 border-border focus:border-accent h-12" />
+              <Input id="email" type="email" placeholder="name@company.com" className="bg-black/5 border-border focus:border-accent h-12" />
             </div>
 
             <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 h-14 text-sm font-bold uppercase tracking-widest mt-4">
@@ -296,7 +296,7 @@ export default function App() {
 function ServiceItem({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
     <motion.div 
-      className="flex gap-6 p-6 rounded-2xl transition-all hover:bg-white/5 group border border-transparent hover:border-border"
+      className="flex gap-6 p-6 rounded-2xl transition-all hover:bg-black/5 group border border-transparent hover:border-border"
       whileHover={{ x: 10 }}
     >
       <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
