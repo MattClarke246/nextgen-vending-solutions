@@ -168,8 +168,8 @@ export default function App() {
               transition={{ duration: 1 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl lg:text-5xl font-bold mb-12 tracking-tight">
-                Premium <span className="text-accent neon-glow">Services</span>
+              <h2 className="text-4xl lg:text-5xl font-bold mb-12 tracking-tight text-gradient">
+                Premium Services
               </h2>
               
               <div className="space-y-6">
@@ -203,12 +203,12 @@ export default function App() {
       <section className="relative min-h-screen py-32 px-6 lg:px-16 z-10 pointer-events-none">
         <div className="text-center mb-32 pointer-events-auto">
           <motion.h2 
-            className="text-4xl lg:text-6xl font-bold mb-6 tracking-tight"
+            className="text-4xl lg:text-6xl font-bold mb-6 tracking-tight text-gradient"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
           >
-            Engineered for <span className="text-accent neon-glow">Excellence</span>
+            Engineered for Excellence
           </motion.h2>
           <p className="text-text-muted max-w-2xl mx-auto">
             Our machines are built with cutting-edge technology and precision components to deliver a seamless experience.
