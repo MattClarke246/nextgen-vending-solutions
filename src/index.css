@@ -3,12 +3,12 @@
 
 @theme {
   --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
-  --color-bg: #08080a;
-  --color-accent: #00d1ff;
+  --color-bg: #050b14;
+  --color-accent: #00f0ff;
   --color-accent-foreground: #000;
-  --color-glass: rgba(255, 255, 255, 0.03);
-  --color-border: rgba(255, 255, 255, 0.1);
-  --color-text-muted: #88888b;
+  --color-glass: rgba(0, 240, 255, 0.03);
+  --color-border: rgba(0, 240, 255, 0.15);
+  --color-text-muted: #94a3b8;
 }
 
 @layer base {
@@ -22,15 +22,15 @@
 }
 
 .badge-sleek {
-  @apply inline-block px-3.5 py-1.5 bg-[rgba(0,209,255,0.1)] border border-accent text-accent rounded-full text-[11px] font-semibold tracking-wider uppercase;
+  @apply inline-block px-3.5 py-1.5 bg-[rgba(0,240,255,0.1)] border border-accent text-accent rounded-full text-[11px] font-semibold tracking-wider uppercase;
 }
 
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-[#00f0ff];
 }
 
 .neon-glow {
-  text-shadow: 0 0 20px rgba(0, 209, 255, 0.3);
+  text-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
 }
 
 .side-panel-card {

@@ -70,7 +70,7 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
         {/* Main Body */}
         <mesh position={[0, 0, 0]} castShadow>
           <boxGeometry args={[1.5, 2.5, 1]} />
-          <meshStandardMaterial color={customization.brandColor} metalness={0.8} roughness={0.2} />
+          <meshPhysicalMaterial color={customization.brandColor} metalness={0.3} roughness={0.1} clearcoat={1} clearcoatRoughness={0.1} />
         </mesh>
 
         {/* Interior */}
@@ -135,7 +135,7 @@ function PaymentPanel({ scrollProgress }: { scrollProgress: any }) {
       {/* Screen */}
       <mesh position={[0, 0.2, 0.06]}>
         <planeGeometry args={[0.15, 0.2]} />
-        <meshStandardMaterial color="#00d1ff" emissive="#00d1ff" emissiveIntensity={2} />
+        <meshStandardMaterial color="#00f0ff" emissive="#00f0ff" emissiveIntensity={2} />
       </mesh>
     </mesh>
   );
@@ -172,7 +172,7 @@ function Racks({ scrollProgress, productType }: { scrollProgress: any, productTy
                 <boxGeometry args={[0.12, 0.18, 0.05]} />
               )}
               <meshStandardMaterial 
-                color={j % 3 === 0 ? "#00d1ff" : j % 3 === 1 ? "#ffffff" : "#333"} 
+                color={j % 3 === 0 ? "#00f0ff" : j % 3 === 1 ? "#ffffff" : "#333"} 
                 metalness={isDrink ? 0.8 : 0.2}
                 roughness={0.2}
               />
