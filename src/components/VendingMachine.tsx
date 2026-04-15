@@ -14,33 +14,62 @@ interface VendingMachineProps {
 export function VendingMachine({ scrollProgress, customization }: VendingMachineProps) {
   const groupRef = useRef<THREE.Group>(null);
   const doorRef = useRef<THREE.Group>(null);
+  const backRef = useRef<any>(null);
+  const leftRef = useRef<any>(null);
+  const rightRef = useRef<any>(null);
+  const topRef = useRef<any>(null);
+  const bottomRef = useRef<any>(null);
+  
   const [isOpen, setIsOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
 
-  // Animation for door opening
   useFrame((state) => {
     if (!groupRef.current || !doorRef.current) return;
     
     const progress = scrollProgress.get();
-    
-    // Door rotation animation (Positive Y rotates left edge outward towards camera)
-    const targetRotation = isOpen ? Math.PI * 0.6 : 0;
-    doorRef.current.rotation.y = THREE.MathUtils.lerp(doorRef.current.rotation.y, targetRotation, 0.1);
 
-    // Stable Display Case Positioning
-    // Locked dead center so it does not block the customization panel.
+    // Zero-Gravity Explode Logic (Smooth In & Out between 50% and 75%)
+    let explodeAmount = 0;
+    if (progress > 0.5 && progress < 0.75) {
+      explodeAmount = Math.sin(((progress - 0.5) / 0.25) * Math.PI);
+    }
+
+    // Exit Logic: When progressing past 75% into the footer, rapidly scroll the 3D model UP
+    let exitY = 0;
+    if (progress > 0.75) {
+      exitY = (progress - 0.75) * 35; // Accelerates upwards completely off screen
+    }
+
+    // Base Positioning
     const isMobile = window.innerWidth < 1024;
     groupRef.current.position.x = 0;
-    groupRef.current.position.y = isMobile ? 0 : -0.5;
+    groupRef.current.position.y = (isMobile ? 0 : -0.5) + exitY;
     groupRef.current.scale.setScalar(isMobile ? 0.7 : 1.1);
 
-    // Clean spin mechanics based purely on scroll depth
+    // Apply explosion pushing to chassis parts
+    if (topRef.current) topRef.current.position.y = 1.15 + (explodeAmount * 0.5);
+    if (bottomRef.current) bottomRef.current.position.y = -1.15 - (explodeAmount * 0.5);
+    if (leftRef.current) leftRef.current.position.x = -0.65 - (explodeAmount * 0.5);
+    if (rightRef.current) rightRef.current.position.x = 0.65 + (explodeAmount * 0.5);
+    if (backRef.current) backRef.current.position.z = -0.4 - (explodeAmount * 0.3);
+
+    // Door rotation animation
+    const targetRotation = isOpen ? Math.PI * 0.6 : 0;
+    doorRef.current.rotation.y = THREE.MathUtils.lerp(doorRef.current.rotation.y, targetRotation, 0.1);
+    // Push entire door assembly forward during explosion
+    doorRef.current.position.z = 0.5 + (explodeAmount * 0.6);
+
+    // Clean spin mechanics
     if (!isOpen) {
-      // At top of page (progress=0), faces forward.
-      // Spins slowly exactly 2 full rotations as user scrolls the entire page.
-      groupRef.current.rotation.y = progress * Math.PI * 4;
+      if (explodeAmount > 0.1) {
+         // High-tech diagram mode: override scroll spin with constant examination spin
+         groupRef.current.rotation.y += 0.008;
+      } else {
+         // Standard page scroll spin
+         groupRef.current.rotation.y = progress * Math.PI * 4;
+      }
     } else {
-      // When user clicks to open, lock the machine towards them to examine products
+      // Focus lock when opened
       groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, 0.1, 0.1);
     }
   });
@@ -59,23 +88,23 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
         {/* Hollow Main Body */}
         <group>
           {/* Back panel */}
-          <RoundedBox args={[1.5, 2.5, 0.2]} radius={0.08} smoothness={8} position={[0, 0, -0.4]} castShadow>
+          <RoundedBox ref={backRef} args={[1.5, 2.5, 0.2]} radius={0.08} smoothness={8} position={[0, 0, -0.4]} castShadow>
             <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
           </RoundedBox>
           {/* Left panel */}
-          <RoundedBox args={[0.2, 2.5, 0.8]} radius={0.08} smoothness={8} position={[-0.65, 0, 0.1]} castShadow>
+          <RoundedBox ref={leftRef} args={[0.2, 2.5, 0.8]} radius={0.08} smoothness={8} position={[-0.65, 0, 0.1]} castShadow>
             <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
           </RoundedBox>
           {/* Right panel */}
-          <RoundedBox args={[0.2, 2.5, 0.8]} radius={0.08} smoothness={8} position={[0.65, 0, 0.1]} castShadow>
+          <RoundedBox ref={rightRef} args={[0.2, 2.5, 0.8]} radius={0.08} smoothness={8} position={[0.65, 0, 0.1]} castShadow>
             <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
           </RoundedBox>
           {/* Top panel */}
-          <RoundedBox args={[1.1, 0.2, 0.8]} radius={0.08} smoothness={8} position={[0, 1.15, 0.1]} castShadow>
+          <RoundedBox ref={topRef} args={[1.1, 0.2, 0.8]} radius={0.08} smoothness={8} position={[0, 1.15, 0.1]} castShadow>
             <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
           </RoundedBox>
           {/* Bottom panel */}
-          <RoundedBox args={[1.1, 0.2, 0.8]} radius={0.08} smoothness={8} position={[0, -1.15, 0.1]} castShadow>
+          <RoundedBox ref={bottomRef} args={[1.1, 0.2, 0.8]} radius={0.08} smoothness={8} position={[0, -1.15, 0.1]} castShadow>
             <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
           </RoundedBox>
         </group>
@@ -177,8 +206,8 @@ function Racks({ scrollProgress, productType }: { scrollProgress: any, productTy
     if (!groupRef.current) return;
     const progress = scrollProgress.get();
     if (progress > 0.5 && progress < 0.75) {
-      const t = (progress - 0.5) / 0.25;
-      groupRef.current.position.z = t * 0.5; // Subtle shift in exploded view
+      const explodeAmount = Math.sin(((progress - 0.5) / 0.25) * Math.PI);
+      groupRef.current.position.z = explodeAmount * 0.4; // Push products forward through open space
     } else {
       groupRef.current.position.z = 0;
     }
@@ -221,8 +250,8 @@ function CoolingSystem({ scrollProgress }: { scrollProgress: any }) {
     if (!ref.current) return;
     const progress = scrollProgress.get();
     if (progress > 0.5 && progress < 0.75) {
-      const t = (progress - 0.5) / 0.25;
-      ref.current.position.y = -1.3 - t * 0.5;
+      const explodeAmount = Math.sin(((progress - 0.5) / 0.25) * Math.PI);
+      ref.current.position.y = -1.3 - (explodeAmount * 0.8); // Drop the cooling system dynamically
     } else {
       ref.current.position.y = -1.3;
     }
