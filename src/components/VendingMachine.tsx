@@ -23,15 +23,14 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
     
     const progress = scrollProgress.get();
     
-    // Door rotation animation
-    const targetRotation = isOpen ? -Math.PI * 0.6 : 0;
+    // Door rotation animation (Positive Y rotates left edge outward towards camera)
+    const targetRotation = isOpen ? Math.PI * 0.6 : 0;
     doorRef.current.rotation.y = THREE.MathUtils.lerp(doorRef.current.rotation.y, targetRotation, 0.1);
 
-    // Stable Display Case Positioning (No bouncing)
-    // On desktop, push it to the right half so text on the left is readable.
-    // On mobile, center it but push it down slightly to stay underneath text.
+    // Stable Display Case Positioning
+    // Locked dead center so it does not block the customization panel.
     const isMobile = window.innerWidth < 1024;
-    groupRef.current.position.x = isMobile ? 0 : 2.5;
+    groupRef.current.position.x = 0;
     groupRef.current.position.y = isMobile ? 0 : -0.5;
     groupRef.current.scale.setScalar(isMobile ? 0.7 : 1.1);
 
