@@ -1,6 +1,6 @@
 import { useRef, useState, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Float, Html, RoundedBox } from '@react-three/drei';
+import { Float, Html, RoundedBox, Text } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface VendingMachineProps {
@@ -112,17 +112,27 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
           <meshPhysicalMaterial color={brandColor} metalness={0.6} roughness={0.2} clearcoat={0.5} />
         </mesh>
 
-        {/* Interior ceiling LED strip */}
-        <mesh position={[0, 1.18, -0.05]}>
-          <boxGeometry args={[1.3, 0.04, 0.06]} />
-          <meshStandardMaterial color="#FFFFFF" emissive="#FFFAE0" emissiveIntensity={3} />
+        {/* Interior LED Strips (Left & Right) */}
+        <mesh position={[-0.67, 0, -0.2]}>
+          <boxGeometry args={[0.02, 2.5, 0.02]} />
+          <meshStandardMaterial color="#FFFFFF" emissive="#FFFFFF" emissiveIntensity={2} />
         </mesh>
-        <pointLight position={[0, 1.0, 0.1]} intensity={1.5} color="#FFFFFF" distance={3} />
+        <mesh position={[0.67, 0, -0.2]}>
+          <boxGeometry args={[0.02, 2.5, 0.02]} />
+          <meshStandardMaterial color="#FFFFFF" emissive="#FFFFFF" emissiveIntensity={2} />
+        </mesh>
+        {/* Multi-point shelf lighting */}
+        <pointLight position={[0, 0.8, -0.1]} intensity={0.8} color="#FFFFFF" distance={2.5} />
+        <pointLight position={[0, 0, -0.1]} intensity={0.8} color="#FFFFFF" distance={2.5} />
+        <pointLight position={[0, -0.8, -0.1]} intensity={0.8} color="#FFFFFF" distance={2.5} />
 
         {/* ── LOGO PANEL (top) ── */}
         <mesh position={[0, 0.98, 0.47]}>
           <planeGeometry args={[1.1, 0.28]} />
-          <meshStandardMaterial color={isDark ? '#1C1C1E' : '#007AFF'} roughness={0.3} metalness={0.5} />
+          <meshStandardMaterial color={isDark ? '#1C1C1E' : '#0A84FF'} roughness={0.3} metalness={0.5} />
+          <Text position={[0, 0, 0.01]} fontSize={0.11} fontWeight={800} letterSpacing={0.2} color="#FFFFFF" fillOpacity={0.9}>
+            NEXTGEN
+          </Text>
         </mesh>
 
         {/* ── PRODUCT RACKS (inside machine) ── */}
@@ -139,13 +149,13 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
         <mesh position={[0, -1.06, 0.35]}>
           <boxGeometry args={[0.85, 0.14, 0.22]} />
           <meshStandardMaterial color="#0A0A0A" metalness={0.8} roughness={0.2} />
+          <pointLight position={[0, 0, 0]} intensity={0.4} color="#0A84FF" distance={0.5} />
         </mesh>
 
         {/* ── COOLING / BASE UNIT ── */}
-        <mesh ref={coolingRef} position={[0, -1.3, 0]}>
-          <boxGeometry args={[1.55, 0.22, 0.88]} />
+        <RoundedBox ref={coolingRef} args={[1.55, 0.22, 0.88]} radius={0.04} smoothness={6} position={[0, -1.3, 0]}>
           <meshStandardMaterial color={isDark ? '#111' : '#2A2A2C'} metalness={0.9} roughness={0.2} />
-        </mesh>
+        </RoundedBox>
         {/* Ventilation grille slots */}
         {[-0.3, -0.1, 0.1, 0.3].map((x, i) => (
           <mesh key={i} position={[x, -1.3, 0.45]}>
@@ -172,6 +182,14 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
                 ior={1.5}
               />
             </RoundedBox>
+
+            {/* Inner Glass Black Bezel (Appliance Seal) */}
+            <group position={[0, 0, -0.021]}>
+              <mesh position={[0, 1.27, 0]}><boxGeometry args={[1.2, 0.08, 0.01]} /><meshStandardMaterial color="#000" roughness={0.5} /></mesh>
+              <mesh position={[0, -1.27, 0]}><boxGeometry args={[1.2, 0.08, 0.01]} /><meshStandardMaterial color="#000" roughness={0.5} /></mesh>
+              <mesh position={[-0.56, 0, 0]}><boxGeometry args={[0.08, 2.62, 0.01]} /><meshStandardMaterial color="#000" roughness={0.5} /></mesh>
+              <mesh position={[0.56, 0, 0]}><boxGeometry args={[0.08, 2.62, 0.01]} /><meshStandardMaterial color="#000" roughness={0.5} /></mesh>
+            </group>
 
             {/* Door frame – left pillar */}
             <RoundedBox args={[0.12, 2.8, 0.10]} radius={0.04} smoothness={6} position={[-0.71, 0, 0]}>
