@@ -98,7 +98,7 @@ export default function App() {
                     variant={customization.productType === type ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => setCustomization(prev => ({ ...prev, productType: type }))}
-                    className={`justify-start h-9 text-[11px] uppercase tracking-wider ${customization.productType === type ? 'bg-accent text-accent-foreground' : 'border-border'}`}
+                    className={`justify-start h-9 text-[11px] uppercase tracking-wider transition-all ${customization.productType === type ? 'bg-accent text-accent-foreground shadow-[0_0_12px_rgba(0,113,227,0.4)] border border-transparent' : 'bg-white border-[#d1d1d6] text-[#1d1d1f] hover:border-[#00f0ff] hover:text-[#0071e3]'}`}
                   >
                     <Package className="mr-2 h-3 w-3" /> {type}
                   </Button>
@@ -239,7 +239,7 @@ export default function App() {
       <section className="relative min-h-screen py-32 px-6 lg:px-16 z-10 flex items-center justify-center pointer-events-none">
         <div className="side-panel-card w-full max-w-2xl pointer-events-auto">
           <div className="mb-10">
-            <h2 className="text-2xl lg:text-3xl font-bold mb-3">Book Your Setup</h2>
+            <h2 className="text-2xl lg:text-3xl font-bold text-[#1d1d1f] mb-3">Book Your Setup</h2>
             <p className="text-text-muted text-sm">Schedule a consultation for custom hardware and managed replenishment services.</p>
           </div>
           
@@ -295,14 +295,14 @@ export default function App() {
 function ServiceItem({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
     <motion.div 
-      className="flex gap-6 p-6 rounded-2xl transition-all hover:bg-black/5 group border border-transparent hover:border-border"
-      whileHover={{ x: 10 }}
+      className="flex gap-6 p-6 rounded-2xl transition-all bg-gradient-to-br from-white to-[#f5f5f7] border border-[#e5e5ea] hover:border-[#00f0ff] hover:shadow-[0_0_20px_rgba(0,240,255,0.2)] group cursor-pointer"
+      whileHover={{ scale: 1.02 }}
     >
-      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
+      <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-b from-[#fdfdfd] to-[#e5e5ea] border border-[#d1d1d6] shadow-sm flex items-center justify-center text-accent group-hover:text-[#00f0ff] transition-colors">
         {icon}
       </div>
       <div>
-        <h3 className="text-lg font-semibold mb-1.5">{title}</h3>
+        <h3 className="text-lg font-semibold text-[#1d1d1f] mb-1.5">{title}</h3>
         <p className="text-text-muted text-sm leading-relaxed">{description}</p>
       </div>
     </motion.div>
@@ -312,13 +312,13 @@ function ServiceItem({ icon, title, description }: { icon: React.ReactNode, titl
 function FeatureCard({ title, label, description }: { title: string, label: string, description: string }) {
   return (
     <motion.div 
-      className="glass p-8 rounded-2xl relative overflow-hidden group"
-      whileHover={{ y: -10 }}
+      className="glass p-8 rounded-2xl relative overflow-hidden group border border-[#e5e5ea] hover:border-[#00f0ff] hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all cursor-pointer"
+      whileHover={{ y: -5 }}
     >
       <div className="absolute top-0 right-0 p-5">
-        <span className="text-[10px] font-mono uppercase tracking-widest text-accent/50">{label}</span>
+        <span className="text-[10px] font-mono uppercase tracking-widest text-accent">{label}</span>
       </div>
-      <h3 className="text-xl font-bold mb-4">{title}</h3>
+      <h3 className="text-xl font-bold text-[#1d1d1f] mb-4">{title}</h3>
       <p className="text-text-muted text-sm leading-relaxed">{description}</p>
       <div className="mt-6 flex items-center text-accent text-[11px] font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
         Explore <ArrowRight className="ml-2 h-3 w-3" />
