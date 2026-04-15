@@ -30,7 +30,7 @@ export default function App() {
     brandColor: string;
     productType: 'drinks' | 'snacks' | 'mixed';
   }>({
-    brandColor: '#f5f5f7',
+    brandColor: '#040b16',
     productType: 'mixed'
   });
 
@@ -53,10 +53,10 @@ export default function App() {
           NEXTGEN<span className="text-accent">•</span>VENDING
         </div>
         <ul className="hidden md:flex gap-8 text-[13px] uppercase tracking-widest text-text-muted pointer-events-auto">
-          <li className="hover:text-[#1d1d1f] cursor-pointer transition-colors">Services</li>
-          <li className="hover:text-[#1d1d1f] cursor-pointer transition-colors">Solutions</li>
-          <li className="hover:text-[#1d1d1f] cursor-pointer transition-colors">Clients</li>
-          <li className="hover:text-[#1d1d1f] cursor-pointer transition-colors">Support</li>
+          <li className="hover:text-white cursor-pointer transition-colors">Services</li>
+          <li className="hover:text-white cursor-pointer transition-colors">Solutions</li>
+          <li className="hover:text-white cursor-pointer transition-colors">Clients</li>
+          <li className="hover:text-white cursor-pointer transition-colors">Support</li>
         </ul>
       </nav>
 
@@ -78,7 +78,7 @@ export default function App() {
             <div className="space-y-3">
               <Label className="text-[10px] uppercase tracking-wider text-text-muted">Machine Finish</Label>
               <div className="flex gap-2">
-                {['#f5f5f7', '#1d1d1d', '#b0b1b4', '#d2c0a5'].map((color) => (
+                {['#040b16', '#0a192f', '#0f172a', '#00e5ff'].map((color) => (
                   <button
                     key={color}
                     onClick={() => setCustomization(prev => ({ ...prev, brandColor: color }))}
@@ -98,7 +98,7 @@ export default function App() {
                     variant={customization.productType === type ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => setCustomization(prev => ({ ...prev, productType: type }))}
-                    className={`justify-start h-9 text-[11px] uppercase tracking-wider transition-all ${customization.productType === type ? 'bg-accent text-accent-foreground shadow-[0_0_12px_rgba(0,113,227,0.4)] border border-transparent' : 'bg-white border-[#d1d1d6] text-[#1d1d1f] hover:border-[#00f0ff] hover:text-[#0071e3]'}`}
+                    className={`justify-start h-9 text-[11px] uppercase tracking-wider transition-all ${customization.productType === type ? 'bg-accent text-accent-foreground shadow-[0_0_15px_rgba(0,229,255,0.5)] border border-transparent' : 'bg-transparent border-border text-white hover:border-accent hover:text-accent'}`}
                   >
                     <Package className="mr-2 h-3 w-3" /> {type}
                   </Button>
@@ -123,11 +123,12 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <span className="badge-sleek mb-2">
-              NEW
+            <span className="badge-sleek mb-6">
+              Network Node UI
             </span>
-            <h1 className="text-4xl md:text-[56px] font-semibold tracking-[-0.03em] leading-[1.05] mb-6">
-              <span className="text-[#1d1d1f]">Managed Solutions.</span> <span className="text-[#86868b] font-medium">Take a look at what's new, right now.</span>
+            <h1 className="text-5xl lg:text-[64px] font-bold tracking-[-0.03em] leading-[1.1] mb-6 text-gradient">
+              Managed Solutions <br />
+              <span className="text-text-muted font-normal text-3xl">For high-tech modern spaces.</span>
             </h1>
             <p className="text-lg text-text-muted mb-10 max-w-md leading-relaxed">
               From smart restocks to autonomous maintenance, we provide fully managed vending ecosystems for high-growth businesses.
@@ -169,8 +170,8 @@ export default function App() {
               transition={{ duration: 1 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl lg:text-5xl font-semibold mb-12 tracking-tight text-[#1d1d1f]">
-                Premium Services.
+              <h2 className="text-4xl lg:text-5xl font-bold mb-12 tracking-tight">
+                Premium <span className="text-accent neon-glow">Services</span>
               </h2>
               
               <div className="space-y-6">
@@ -204,12 +205,12 @@ export default function App() {
       <section className="relative min-h-screen py-32 px-6 lg:px-16 z-10 pointer-events-none">
         <div className="text-center mb-32 pointer-events-auto">
           <motion.h2 
-            className="text-4xl md:text-[56px] font-semibold tracking-tight text-[#1d1d1f] mb-6 leading-tight"
+            className="text-4xl lg:text-6xl font-bold mb-6 tracking-tight"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
           >
-            Engineered for Excellence.
+            Engineered for <span className="text-accent neon-glow">Excellence</span>
           </motion.h2>
           <p className="text-text-muted max-w-2xl mx-auto">
             Our machines are built with cutting-edge technology and precision components to deliver a seamless experience.
@@ -239,7 +240,7 @@ export default function App() {
       <section className="relative min-h-screen py-32 px-6 lg:px-16 z-10 flex items-center justify-center pointer-events-none">
         <div className="side-panel-card w-full max-w-2xl pointer-events-auto">
           <div className="mb-10">
-            <h2 className="text-2xl lg:text-3xl font-bold text-[#1d1d1f] mb-3">Book Your Setup</h2>
+            <h2 className="text-2xl lg:text-3xl font-bold text-white mb-3">Book Your Setup</h2>
             <p className="text-text-muted text-sm">Schedule a consultation for custom hardware and managed replenishment services.</p>
           </div>
           
@@ -255,7 +256,7 @@ export default function App() {
                   <SelectTrigger className="bg-black/5 border-border h-12">
                     <SelectValue placeholder="Select a service" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white border-border text-[#1d1d1f]">
+                  <SelectContent className="bg-[#040b16] border-border text-white">
                     <SelectItem value="install">Hardware Installation</SelectItem>
                     <SelectItem value="inventory">Restocking & Managed Inventory</SelectItem>
                     <SelectItem value="branding">Custom Branding</SelectItem>
@@ -295,14 +296,14 @@ export default function App() {
 function ServiceItem({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
     <motion.div 
-      className="flex gap-6 p-6 rounded-2xl transition-all bg-gradient-to-br from-white to-[#f5f5f7] border border-[#e5e5ea] hover:border-[#00f0ff] hover:shadow-[0_0_20px_rgba(0,240,255,0.2)] group cursor-pointer"
+      className="flex gap-6 p-6 rounded-2xl transition-all bg-[rgba(4,11,22,0.6)] border border-border hover:border-accent hover:shadow-[0_0_20px_rgba(0,229,255,0.2)] group cursor-pointer backdrop-blur-md"
       whileHover={{ scale: 1.02 }}
     >
-      <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-b from-[#fdfdfd] to-[#e5e5ea] border border-[#d1d1d6] shadow-sm flex items-center justify-center text-accent group-hover:text-[#00f0ff] transition-colors">
+      <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-accent/10 border border-border shadow-sm flex items-center justify-center text-accent group-hover:text-black group-hover:bg-accent group-hover:shadow-[0_0_15px_rgba(0,229,255,0.6)] transition-colors">
         {icon}
       </div>
       <div>
-        <h3 className="text-lg font-semibold text-[#1d1d1f] mb-1.5">{title}</h3>
+        <h3 className="text-lg font-bold text-white mb-1.5">{title}</h3>
         <p className="text-text-muted text-sm leading-relaxed">{description}</p>
       </div>
     </motion.div>
@@ -312,13 +313,13 @@ function ServiceItem({ icon, title, description }: { icon: React.ReactNode, titl
 function FeatureCard({ title, label, description }: { title: string, label: string, description: string }) {
   return (
     <motion.div 
-      className="glass p-8 rounded-2xl relative overflow-hidden group border border-[#e5e5ea] hover:border-[#00f0ff] hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all cursor-pointer"
+      className="glass p-8 rounded-2xl relative overflow-hidden group border border-border hover:border-accent hover:shadow-[0_0_20px_rgba(0,229,255,0.15)] transition-all cursor-pointer"
       whileHover={{ y: -5 }}
     >
       <div className="absolute top-0 right-0 p-5">
         <span className="text-[10px] font-mono uppercase tracking-widest text-accent">{label}</span>
       </div>
-      <h3 className="text-xl font-bold text-[#1d1d1f] mb-4">{title}</h3>
+      <h3 className="text-xl font-bold text-white mb-4">{title}</h3>
       <p className="text-text-muted text-sm leading-relaxed">{description}</p>
       <div className="mt-6 flex items-center text-accent text-[11px] font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
         Explore <ArrowRight className="ml-2 h-3 w-3" />
