@@ -61,7 +61,7 @@ export default function App() {
 
   const colors = [
     { hex: '#0A0A0A', label: 'Black' },
-    { hex: '#E3E4E5', label: 'Silver' },
+    { hex: '#8D9399', label: 'Wolf Grey' },
     { hex: '#8A0014', label: 'Red' },
     { hex: '#0B1A30', label: 'Dark Blue' },
   ];
