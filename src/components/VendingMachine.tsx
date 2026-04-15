@@ -106,10 +106,10 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
         </group>
 
         {/* ── INTERIOR ── */}
-        {/* Interior backdrop – bright white reflective surface */}
+        {/* Interior backdrop – painted metal matching chassis */}
         <mesh position={[0, 0, -0.35]}>
           <planeGeometry args={[1.42, 2.62]} />
-          <meshStandardMaterial color="#F8F8F8" roughness={0.1} metalness={0.3} />
+          <meshPhysicalMaterial color={brandColor} metalness={0.6} roughness={0.2} clearcoat={0.5} />
         </mesh>
 
         {/* Interior ceiling LED strip */}
