@@ -80,7 +80,7 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
         {/* Interior LED Light Strip */}
         <mesh position={[0, 1.15, 0.2]}>
           <boxGeometry args={[1.2, 0.05, 0.05]} />
-          <meshStandardMaterial color="#00e5ff" emissive="#00e5ff" emissiveIntensity={3} />
+          <meshStandardMaterial color="#FFFFFF" emissive="#FFFFFF" emissiveIntensity={2} />
         </mesh>
 
         {/* Door Group (Glass + Frame) */}
@@ -88,12 +88,16 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
           <group position={[-0.75, 0, 0]}>
             {/* Glass Front */}
             <RoundedBox args={[1.1, 2.1, 0.05]} radius={0.02} smoothness={4} position={[0, 0, 0]}>
-              <meshStandardMaterial 
+              <meshPhysicalMaterial 
                 transparent 
-                opacity={0.3} 
-                roughness={0.1} 
-                metalness={0.5}
-                color="#00e5ff"
+                opacity={0.1} 
+                transmission={0.9} 
+                thickness={2}
+                roughness={0.05} 
+                metalness={0.1}
+                clearcoat={1}
+                clearcoatRoughness={0.1}
+                color="#ffffff"
               />
             </RoundedBox>
             {/* Door Frame (Hollow) */}
@@ -151,7 +155,7 @@ function PaymentPanel({ scrollProgress }: { scrollProgress: any }) {
       {/* Screen */}
       <mesh position={[0, 0.2, 0.051]}>
         <planeGeometry args={[0.15, 0.2]} />
-        <meshStandardMaterial color="#00e5ff" emissive="#00e5ff" emissiveIntensity={1.5} />
+        <meshStandardMaterial color="#007AFF" emissive="#007AFF" emissiveIntensity={1} />
       </mesh>
     </group>
   );
