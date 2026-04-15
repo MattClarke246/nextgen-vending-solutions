@@ -19,7 +19,8 @@
 }
 
 .glass {
-  @apply bg-glass backdrop-blur-xl border border-border shadow-[0_0_20px_rgba(0,229,255,0.05)] rounded-[20px];
+  @apply bg-glass border border-border shadow-[0_0_20px_rgba(0,229,255,0.05)] rounded-[20px];
+  background: linear-gradient(135deg, rgba(10, 25, 47, 0.95) 0%, rgba(4, 11, 22, 0.95) 100%);
 }
 
 .badge-sleek {
@@ -36,6 +37,7 @@
 
 .side-panel-card {
   @apply bg-glass border border-border p-8 rounded-[24px] shadow-[0_0_30px_rgba(0,229,255,0.08)];
+  background: linear-gradient(135deg, rgba(10, 25, 47, 0.95) 0%, rgba(4, 11, 22, 0.95) 100%);
 }
 
 @tailwind base;

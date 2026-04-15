@@ -44,7 +44,7 @@ export default function App() {
   });
 
   return (
-    <div ref={containerRef} className="relative bg-bg">
+    <div ref={containerRef} className="relative bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#132c52]/30 via-[#040b16]/95 to-[#040b16]">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 w-full px-6 lg:px-16 py-10 flex justify-between items-center z-50 pointer-events-none">
         <div className="flex items-center gap-2.5 font-extrabold text-xl tracking-[0.2em] uppercase pointer-events-auto">
@@ -246,12 +246,12 @@ export default function App() {
             <div className="grid md:grid-cols-2 gap-5">
               <div className="space-y-2">
                 <Label htmlFor="business" className="text-[11px] uppercase tracking-wider text-text-muted">Business Name</Label>
-                <Input id="business" placeholder="Enter company name" className="bg-white/5 border-border focus:border-accent h-12 text-white placeholder:text-text-muted" />
+                <Input id="business" placeholder="Enter company name" className="bg-white/5 hover:bg-white/10 border-border focus:border-accent h-12 text-white placeholder:text-text-muted transition-colors duration-300" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="service" className="text-[11px] uppercase tracking-wider text-text-muted">Service Type</Label>
                 <Select>
-                  <SelectTrigger className="bg-white/5 border-border h-12 text-white">
+                  <SelectTrigger className="bg-white/5 hover:bg-white/10 border-border h-12 text-white transition-colors duration-300">
                     <SelectValue placeholder="Select a service" />
                   </SelectTrigger>
                   <SelectContent className="bg-[#040b16] border-border text-white">
@@ -265,7 +265,7 @@ export default function App() {
             
             <div className="space-y-2">
               <Label htmlFor="email" className="text-[11px] uppercase tracking-wider text-text-muted">Contact Email</Label>
-              <Input id="email" type="email" placeholder="name@company.com" className="bg-white/5 border-border focus:border-accent h-12 text-white placeholder:text-text-muted" />
+              <Input id="email" type="email" placeholder="name@company.com" className="bg-white/5 hover:bg-white/10 border-border focus:border-accent h-12 text-white placeholder:text-text-muted transition-colors duration-300" />
             </div>
 
             <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 h-14 text-sm font-bold uppercase tracking-widest mt-4">
@@ -294,7 +294,7 @@ export default function App() {
 function ServiceItem({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
     <motion.div 
-      className="flex gap-6 p-6 rounded-2xl transition-all bg-[#040b16] border border-border hover:border-accent hover:shadow-[0_0_20px_rgba(0,229,255,0.2)] group cursor-pointer"
+      className="flex gap-6 p-6 rounded-2xl transition-all duration-300 ease-out bg-[linear-gradient(135deg,_rgba(10,25,47,0.95)_0%,_rgba(4,11,22,0.95)_100%)] border border-border hover:border-accent hover:shadow-[0_0_20px_rgba(0,229,255,0.2)] group cursor-pointer"
       whileHover={{ scale: 1.02 }}
     >
       <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-accent/10 border border-border shadow-sm flex items-center justify-center text-accent group-hover:text-black group-hover:bg-accent group-hover:shadow-[0_0_15px_rgba(0,229,255,0.6)] transition-colors">
@@ -311,7 +311,7 @@ function ServiceItem({ icon, title, description }: { icon: React.ReactNode, titl
 function FeatureCard({ title, label, description }: { title: string, label: string, description: string }) {
   return (
     <motion.div 
-      className="glass p-8 rounded-2xl relative overflow-hidden group border border-border hover:border-accent hover:shadow-[0_0_20px_rgba(0,229,255,0.15)] transition-all cursor-pointer"
+      className="glass p-8 rounded-2xl relative overflow-hidden group border border-border hover:border-accent hover:shadow-[0_0_20px_rgba(0,229,255,0.15)] transition-all duration-300 ease-out cursor-pointer"
       whileHover={{ y: -5 }}
     >
       <div className="absolute top-0 right-0 p-5">
