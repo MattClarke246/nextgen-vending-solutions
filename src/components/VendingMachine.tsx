@@ -27,7 +27,7 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
 
   // Parse brand color as THREE color
   const brandColor = customization.brandColor;
-  const isDark = brandColor === '#5C5C5F' || brandColor === '#2E3641';
+  const isDark = brandColor === '#0A0A0A' || brandColor === '#8A0014' || brandColor === '#0B1A30';
 
   useFrame(() => {
     if (!groupRef.current || !doorRef.current) return;

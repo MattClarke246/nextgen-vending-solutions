@@ -44,7 +44,7 @@ export default function App() {
     brandColor: string;
     productType: 'drinks' | 'snacks' | 'mixed';
   }>({
-    brandColor: '#E3E4E5',
+    brandColor: '#0A0A0A',
     productType: 'mixed'
   });
 
@@ -60,10 +60,10 @@ export default function App() {
   });
 
   const colors = [
+    { hex: '#0A0A0A', label: 'Black' },
     { hex: '#E3E4E5', label: 'Silver' },
-    { hex: '#5C5C5F', label: 'Space Gray' },
-    { hex: '#2E3641', label: 'Midnight' },
-    { hex: '#8A0014', label: 'Product Red' },
+    { hex: '#8A0014', label: 'Red' },
+    { hex: '#0B1A30', label: 'Dark Blue' },
   ];
 
   return (
