@@ -6,24 +6,37 @@
 import { useRef, useState } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'motion/react';
 import { Scene } from './components/Scene';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
-  Zap, 
-  RefreshCw, 
-  Settings, 
-  Cpu, 
+import {
+  Zap,
+  RefreshCw,
+  Settings,
+  Cpu,
   ArrowRight,
   ChevronDown,
   Palette,
-  Package,
   MousePointer2,
   Shield,
   BarChart3,
-  Clock
+  Clock,
+  Wifi
 } from 'lucide-react';
+
+// ── Easing presets ────────────────────────────────────────────────────────────
+const ease = [0.22, 1, 0.36, 1] as const;
+const easeSpring = { type: 'spring', stiffness: 260, damping: 22 };
+
+// ── Animation Variants ────────────────────────────────────────────────────────
+const fadeUp = {
+  hidden:  { opacity: 0, y: 28 },
+  visible: (i = 0) => ({
+    opacity: 1, y: 0,
+    transition: { duration: 0.65, ease, delay: i * 0.08 }
+  })
+};
+
+const stagger = {
+  visible: { transition: { staggerChildren: 0.08 } }
+};
 
 export default function App() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -37,7 +50,7 @@ export default function App() {
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"]
+    offset: ['start start', 'end end']
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
@@ -46,342 +59,389 @@ export default function App() {
     restDelta: 0.001
   });
 
+  const colors = [
+    { hex: '#E3E4E5', label: 'Silver' },
+    { hex: '#5C5C5F', label: 'Space Gray' },
+    { hex: '#2E3641', label: 'Midnight' },
+    { hex: '#E00021', label: 'Product Red' },
+  ];
+
   return (
-    <div ref={containerRef} className="page-root relative bg-bg">
+    <div ref={containerRef} className="page-root">
+      {/* Ambient bottom-right glow */}
+      <div className="glow-br" />
 
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 w-full px-6 lg:px-16 py-5 flex justify-between items-center z-50 pointer-events-none">
-        <div className="glass px-5 py-2.5 rounded-2xl flex items-center gap-3 pointer-events-auto shadow-sm">
-          <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-          <span className="font-extrabold text-sm tracking-[0.18em] uppercase text-[#1C1C1E]">
-            NEXTGEN<span className="text-accent mx-1">•</span>VENDING
-          </span>
-        </div>
-        <div className="glass px-6 py-2.5 rounded-2xl pointer-events-auto shadow-sm">
-          <ul className="hidden md:flex gap-8 text-[12px] font-semibold uppercase tracking-widest text-text-muted">
-            <li className="hover:text-[#1C1C1E] cursor-pointer transition-colors">Services</li>
-            <li className="hover:text-[#1C1C1E] cursor-pointer transition-colors">Solutions</li>
-            <li className="hover:text-[#1C1C1E] cursor-pointer transition-colors">Clients</li>
-            <li className="hover:text-[#1C1C1E] cursor-pointer transition-colors">Support</li>
-          </ul>
-        </div>
-      </nav>
-
-      {/* 3D Scene Background */}
+      {/* 3D Vending Machine — fixed background layer */}
       <Scene scrollProgress={smoothProgress} customization={customization} />
 
-      {/* Customization UI Overlay */}
-      <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4 items-end">
+      {/* ─────────────────────────────────────────────
+          NAVIGATION
+          ───────────────────────────────────────────── */}
+      <nav className="fixed top-0 left-0 w-full px-6 lg:px-14 py-5 z-50 pointer-events-none flex justify-between items-center">
+        {/* Brand wordmark */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease }}
+          className="nav-pill px-5 py-2.5 flex items-center gap-2.5 pointer-events-auto"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-[#0A84FF] animate-pulse" />
+          <span className="text-[13px] font-bold tracking-[0.18em] uppercase text-[#F0F0F5]">
+            Next<span className="text-[#0A84FF]">Gen</span> Vending
+          </span>
+        </motion.div>
+
+        {/* Nav links */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease, delay: 0.1 }}
+          className="nav-pill px-6 py-2.5 pointer-events-auto hidden md:block"
+        >
+          <ul className="flex gap-8 text-[12px] font-semibold uppercase tracking-widest text-[#5A5A70]">
+            {['Services', 'Solutions', 'Clients', 'Support'].map((item) => (
+              <li
+                key={item}
+                className="hover:text-[#F0F0F5] cursor-pointer transition-colors duration-200"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+      </nav>
+
+      {/* ─────────────────────────────────────────────
+          CUSTOMIZATION PANEL
+          ───────────────────────────────────────────── */}
+      <div className="fixed bottom-8 right-8 z-50">
         <AnimatePresence>
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="glass p-5 w-60 space-y-5"
+          <motion.div
+            initial={{ opacity: 0, x: 24, scale: 0.95 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ ...easeSpring, delay: 0.6 }}
+            className="config-panel p-5 w-56 space-y-5"
           >
-            <div className="flex items-center gap-2 text-accent text-[10px] font-bold uppercase tracking-widest">
-              <Palette className="h-3.5 w-3.5" /> Configure Machine
+            <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#4DA6FF]">
+              <Palette className="h-3 w-3" />
+              Configure
             </div>
-            
-            <div className="space-y-2.5">
-              <Label className="text-[9px] font-bold uppercase tracking-widest text-text-muted">Machine Finish</Label>
-              <div className="flex gap-2 items-center">
-                {[
-                  { color: '#E3E4E5', label: 'Silver' },
-                  { color: '#5C5C5F', label: 'Space Gray' },
-                  { color: '#2E3641', label: 'Midnight' },
-                  { color: '#E00021', label: 'Red' }
-                ].map(({ color, label }) => (
-                  <button
-                    key={color}
+
+            {/* Color swatches */}
+            <div className="space-y-2">
+              <p className="text-[9px] font-bold uppercase tracking-widest text-[#5A5A70]">Finish</p>
+              <div className="flex gap-2">
+                {colors.map(({ hex, label }) => (
+                  <motion.button
+                    key={hex}
                     title={label}
-                    onClick={() => setCustomization(prev => ({ ...prev, brandColor: color }))}
-                    className={`w-7 h-7 rounded-full border-[2.5px] transition-all shadow-sm ${customization.brandColor === color ? 'border-accent scale-110 shadow-md' : 'border-transparent hover:scale-105'}`}
-                    style={{ backgroundColor: color }}
-                  />
+                    whileHover={{ scale: 1.15 }}
+                    whileTap={{ scale: 0.92 }}
+                    onClick={() => setCustomization(p => ({ ...p, brandColor: hex }))}
+                    className="relative w-7 h-7 rounded-full transition-all"
+                    style={{ backgroundColor: hex }}
+                  >
+                    {customization.brandColor === hex && (
+                      <motion.span
+                        layoutId="swatch-ring"
+                        className="absolute inset-0 rounded-full"
+                        style={{
+                          boxShadow: '0 0 0 2px #08080C, 0 0 0 3.5px #0A84FF'
+                        }}
+                      />
+                    )}
+                  </motion.button>
                 ))}
               </div>
             </div>
 
+            {/* Product Mix */}
             <div className="space-y-2">
-              <Label className="text-[9px] font-bold uppercase tracking-widest text-text-muted">Product Mix</Label>
-              <div className="grid grid-cols-3 gap-1.5">
+              <p className="text-[9px] font-bold uppercase tracking-widest text-[#5A5A70]">Product Mix</p>
+              <div className="grid grid-cols-3 gap-1">
                 {(['drinks', 'snacks', 'mixed'] as const).map((type) => (
-                  <button
+                  <motion.button
                     key={type}
-                    onClick={() => setCustomization(prev => ({ ...prev, productType: type }))}
-                    className={`py-1.5 px-2 rounded-xl text-[10px] font-semibold capitalize transition-all ${customization.productType === type ? 'bg-accent text-white shadow-sm' : 'bg-white/60 text-text-muted hover:bg-white border border-border'}`}
+                    whileHover={{ scale: 1.04 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setCustomization(p => ({ ...p, productType: type }))}
+                    className={`py-1.5 rounded-xl text-[9px] font-bold capitalize transition-all ${
+                      customization.productType === type
+                        ? 'bg-[#0A84FF] text-white shadow-lg shadow-[#0A84FF]/30'
+                        : 'bg-white/5 text-[#5A5A70] border border-white/07 hover:text-[#A0A0B0]'
+                    }`}
                   >
                     {type}
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </div>
 
-            <div className="pt-2 border-t border-[#E5E5EA]/60">
-              <div className="flex items-center gap-1.5 text-[9px] text-text-muted">
-                <MousePointer2 className="h-3 w-3" /> Click machine to open
-              </div>
+            <div className="pt-2 border-t border-white/06">
+              <p className="text-[9px] text-[#3D3D50] flex items-center gap-1.5">
+                <MousePointer2 className="h-2.5 w-2.5" />
+                Click machine to open
+              </p>
             </div>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* ── Hero Section ── */}
+      {/* ═════════════════════════════════════════════
+          HERO SECTION
+          ═════════════════════════════════════════════ */}
       <section className="relative h-screen flex items-center px-6 lg:px-20 z-10 pointer-events-none">
-        <div className="max-w-lg pointer-events-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
-            className="space-y-6"
-          >
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          animate="visible"
+          className="max-w-[480px] pointer-events-auto space-y-7"
+        >
+          <motion.div variants={fadeUp}>
             <span className="badge-sleek">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent inline-block" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0A84FF] inline-block" />
               Smart Vending Solutions
             </span>
+          </motion.div>
 
-            <h1 className="text-[52px] lg:text-[72px] font-bold tracking-[-0.04em] leading-[1.0] text-gradient">
-              Managed<br />
-              <span className="text-accent">Vending</span><br />
-              Ecosystems.
-            </h1>
+          <motion.h1
+            variants={fadeUp}
+            className="text-[52px] lg:text-[72px] font-bold tracking-[-0.045em] leading-[0.95] text-gradient"
+          >
+            Managed<br />
+            <span className="text-gradient-blue">Vending</span><br />
+            Ecosystems.
+          </motion.h1>
 
-            <p className="text-base text-text-muted leading-relaxed max-w-sm">
-              From smart restocks to autonomous maintenance — fully managed vending for high-growth businesses.
-            </p>
+          <motion.p
+            variants={fadeUp}
+            className="text-[15px] text-[#5A5A70] leading-relaxed max-w-sm"
+          >
+            From smart restocks to autonomous maintenance — fully managed vending infrastructure for high-growth businesses.
+          </motion.p>
 
-            <div className="flex gap-3">
-              <button className="px-6 py-3 rounded-2xl bg-accent text-white text-sm font-semibold tracking-wide hover:bg-accent/90 transition-all shadow-lg shadow-accent/20 active:scale-95">
-                Get Started
-              </button>
-              <button className="px-6 py-3 rounded-2xl bg-white/70 backdrop-blur text-[#1C1C1E] text-sm font-semibold tracking-wide hover:bg-white transition-all border border-border active:scale-95">
-                Learn More
-              </button>
+          <motion.div variants={fadeUp} className="flex gap-3 pt-1">
+            <button className="btn-primary">
+              Get Started <ArrowRight className="ml-2 h-4 w-4 inline-block" />
+            </button>
+            <button className="btn-secondary">
+              Learn More
+            </button>
+          </motion.div>
+
+          <motion.div variants={fadeUp} className="flex gap-8 pt-3">
+            <div className="stat-pill">
+              <span className="stat-value">99.8%</span>
+              <span className="stat-label">Uptime</span>
             </div>
-            
-            <div className="flex gap-8 pt-4">
-              <div className="stat-pill">
-                <span className="stat-value">99.8%</span>
-                <span className="stat-label">Uptime</span>
-              </div>
-              <div className="stat-pill">
-                <span className="stat-value">IoT Ready</span>
-                <span className="stat-label">Smart Monitor</span>
-              </div>
-              <div className="stat-pill">
-                <span className="stat-value">24hr</span>
-                <span className="stat-label">Response</span>
-              </div>
+            <div className="stat-pill">
+              <span className="stat-value">IoT</span>
+              <span className="stat-label">Smart Monitor</span>
+            </div>
+            <div className="stat-pill">
+              <span className="stat-value">24hr</span>
+              <span className="stat-label">Response</span>
             </div>
           </motion.div>
-        </div>
-        
-        <motion.div 
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30"
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#3D3D50]"
           animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <ChevronDown className="h-5 w-5" />
+          <ChevronDown className="h-4 w-4" />
         </motion.div>
       </section>
 
-      {/* ── Services Section ── */}
+      {/* ═════════════════════════════════════════════
+          SERVICES SECTION
+          ═════════════════════════════════════════════ */}
       <section className="relative min-h-screen py-36 px-6 lg:px-20 z-10 pointer-events-none">
-        <div className="max-w-lg pointer-events-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="space-y-10"
-          >
-            <div>
-              <div className="section-divider" />
-              <span className="badge-sleek">What We Offer</span>
-              <h2 className="text-4xl lg:text-5xl font-bold tracking-[-0.03em] text-gradient mt-2">
-                Premium Services
-              </h2>
-            </div>
-
-            {/* 2-col metric grid */}
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { icon: <Shield className="h-4 w-4" />, metric: '5-Year', detail: 'Hardware Warranty' },
-                { icon: <BarChart3 className="h-4 w-4" />, metric: 'Real-Time', detail: 'Inventory Analytics' },
-                { icon: <Clock className="h-4 w-4" />, metric: '< 4hr', detail: 'Avg. Response Time' },
-                { icon: <Cpu className="h-4 w-4" />, metric: 'Contactless', detail: 'AI-Enabled Payments' },
-              ].map(({ icon, metric, detail }) => (
-                <motion.div
-                  key={detail}
-                  whileHover={{ y: -3 }}
-                  className="glass p-4 flex flex-col gap-2"
-                >
-                  <div className="w-8 h-8 rounded-xl bg-accent/10 flex items-center justify-center text-accent">{icon}</div>
-                  <div className="text-xl font-bold text-[#1C1C1E] tracking-tight">{metric}</div>
-                  <div className="text-[11px] text-text-muted font-medium">{detail}</div>
-                </motion.div>
-              ))}
-            </div>
-            
-            <div className="space-y-3">
-              <ServiceItem 
-                icon={<Zap className="h-5 w-5" />}
-                title="Installation & Setup"
-                description="Professional placement and configuration of high-end vending units tailored to your space."
-              />
-              <ServiceItem 
-                icon={<RefreshCw className="h-5 w-5" />}
-                title="Inventory Management"
-                description="Real-time tracking and automated restocking to ensure your machines are always full."
-              />
-              <ServiceItem 
-                icon={<Settings className="h-5 w-5" />}
-                title="Maintenance & Repairs"
-                description="24/7 technical support and proactive maintenance to minimize downtime."
-              />
-              <ServiceItem 
-                icon={<Cpu className="h-5 w-5" />}
-                title="Smart Solutions"
-                description="Contactless payments, touchscreens, and IoT connectivity for a modern experience."
-              />
-            </div>
+        <motion.div
+          className="max-w-[480px] pointer-events-auto space-y-10"
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-100px' }}
+        >
+          <motion.div variants={fadeUp} className="space-y-3">
+            <div className="section-divider" />
+            <span className="badge-sleek">What We Offer</span>
+            <h2 className="text-[40px] lg:text-[52px] font-bold tracking-[-0.04em] leading-[1.05] text-gradient">
+              Premium<br />Services
+            </h2>
           </motion.div>
-        </div>
+
+          {/* Metric tiles 2x2 */}
+          <motion.div variants={fadeUp} className="grid grid-cols-2 gap-3">
+            {[
+              { icon: <Shield className="h-4 w-4" />, value: '5-Year',      label: 'Hardware Warranty' },
+              { icon: <BarChart3 className="h-4 w-4" />, value: 'Live',     label: 'Inventory Analytics' },
+              { icon: <Clock className="h-4 w-4" />, value: '< 4hr',        label: 'Avg Response Time' },
+              { icon: <Wifi className="h-4 w-4" />, value: 'AI-Ready',      label: 'Smart IoT Payments' },
+            ].map(({ icon, value, label }) => (
+              <motion.div
+                key={label}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                className="metric-tile flex flex-col gap-2.5"
+              >
+                <div className="w-8 h-8 rounded-xl bg-[#0A84FF]/12 border border-[#0A84FF]/18 flex items-center justify-center text-[#4DA6FF]">
+                  {icon}
+                </div>
+                <div className="text-[20px] font-bold text-[#F0F0F5] tracking-tight leading-none">{value}</div>
+                <div className="text-[10px] text-[#5A5A70] font-medium">{label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Service list */}
+          <motion.div variants={fadeUp} className="space-y-2">
+            {[
+              { icon: <Zap className="h-4 w-4" />,       title: 'Installation & Setup',    desc: 'Professional placement and configuration of high-end vending units tailored to your space.' },
+              { icon: <RefreshCw className="h-4 w-4" />,  title: 'Inventory Management',   desc: 'Real-time tracking and automated restocking to ensure your machines are always full.' },
+              { icon: <Settings className="h-4 w-4" />,   title: 'Maintenance & Repairs',  desc: '24/7 technical support and proactive maintenance to minimize downtime.' },
+              { icon: <Cpu className="h-4 w-4" />,        title: 'Smart Solutions',         desc: 'Contactless payments, touchscreens, and IoT connectivity for a modern experience.' },
+            ].map(({ icon, title, desc }, i) => (
+              <motion.div
+                key={title}
+                className="service-card"
+                custom={i}
+                variants={fadeUp}
+                whileHover="hover"
+              >
+                <div className="service-icon">{icon}</div>
+                <div className="min-w-0">
+                  <h3 className="text-[13px] font-bold text-[#F0F0F5] mb-0.5">{title}</h3>
+                  <p className="text-[11px] text-[#5A5A70] leading-relaxed">{desc}</p>
+                </div>
+                <ArrowRight className="h-3.5 w-3.5 text-[#3D3D50] flex-shrink-0 self-center ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* ── Exploded View Section ── */}
+      {/* ═════════════════════════════════════════════
+          ENGINEERED FOR EXCELLENCE
+          ═════════════════════════════════════════════ */}
       <section className="relative min-h-screen py-36 px-6 lg:px-20 z-10 pointer-events-none">
-        <div className="max-w-lg pointer-events-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="space-y-10"
-          >
-            <div>
-              <div className="section-divider" />
-              <span className="badge-sleek">Technical Breakdown</span>
-              <h2 className="text-4xl lg:text-5xl font-bold tracking-[-0.03em] text-gradient mt-2">
-                Engineered for<br />Excellence
-              </h2>
-              <p className="text-text-muted text-base mt-4 leading-relaxed max-w-sm">
-                Precision components and cutting-edge technology — built for longevity and zero interruption.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <FeatureCard 
-                title="Internal Systems"
-                label="Maintenance"
-                description="High-efficiency cooling and mechanical delivery systems designed for longevity."
-              />
-              <FeatureCard 
-                title="Modular Components"
-                label="Repairs"
-                description="Rapid swap-out parts that enable sub-hour repair visits and minimal downtime."
-              />
-              <FeatureCard 
-                title="Smart Tech Core"
-                label="Upgrades"
-                description="Integrated payment surfaces, digital interfaces, and OTA firmware upgrades."
-              />
-            </div>
+        <motion.div
+          className="max-w-[480px] pointer-events-auto space-y-10"
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-100px' }}
+        >
+          <motion.div variants={fadeUp} className="space-y-3">
+            <div className="section-divider" />
+            <span className="badge-sleek">Technical Breakdown</span>
+            <h2 className="text-[40px] lg:text-[52px] font-bold tracking-[-0.04em] leading-[1.05] text-gradient">
+              Engineered for<br />Excellence
+            </h2>
+            <p className="text-[14px] text-[#5A5A70] leading-relaxed max-w-sm">
+              Precision components and cutting-edge technology — built for longevity and zero interruption.
+            </p>
           </motion.div>
-        </div>
+
+          <motion.div variants={fadeUp} className="space-y-3">
+            {[
+              { title: 'Internal Systems',   label: 'Maintenance', desc: 'High-efficiency cooling and mechanical delivery systems designed for longevity and reliability.' },
+              { title: 'Modular Components', label: 'Repairs',     desc: 'Rapid swap-out parts enabling sub-hour repair visits and minimal service interruption.' },
+              { title: 'Smart Tech Core',    label: 'Upgrades',    desc: 'Integrated payment surfaces, digital interfaces, and over-the-air firmware upgrades.' },
+            ].map(({ title, label, desc }, i) => (
+              <motion.div
+                key={title}
+                className="feature-card"
+                custom={i}
+                variants={fadeUp}
+                whileHover={{ y: -3, transition: { duration: 0.2 } }}
+              >
+                <div className="flex items-start justify-between mb-2.5">
+                  <h3 className="text-[14px] font-bold text-[#F0F0F5]">{title}</h3>
+                  <span className="text-[9px] font-mono font-bold uppercase tracking-widest bg-[#0A84FF]/12 text-[#4DA6FF] px-2.5 py-0.5 rounded-full border border-[#0A84FF]/18 ml-3 flex-shrink-0">
+                    {label}
+                  </span>
+                </div>
+                <p className="text-[12px] text-[#5A5A70] leading-relaxed">{desc}</p>
+                <div className="mt-3 flex items-center text-[#0A84FF] text-[10px] font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
+                  Explore <ArrowRight className="ml-1 h-3 w-3" />
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* ── Booking Section ── */}
+      {/* ═════════════════════════════════════════════
+          BOOKING SECTION
+          ═════════════════════════════════════════════ */}
       <section className="relative min-h-screen py-36 px-6 lg:px-20 z-10 flex items-center justify-center pointer-events-none">
-        <div className="side-panel-card w-full max-w-xl pointer-events-auto">
+        <motion.div
+          className="book-card w-full max-w-xl pointer-events-auto"
+          initial={{ opacity: 0, y: 32, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.7, ease }}
+          viewport={{ once: true }}
+        >
           <div className="mb-8">
             <div className="section-divider" />
-            <h2 className="text-2xl lg:text-3xl font-bold text-[#1C1C1E] mb-2 tracking-tight">Book Your Setup</h2>
-            <p className="text-text-muted text-sm">Schedule a consultation for custom hardware and managed replenishment services.</p>
+            <h2 className="text-[28px] font-bold text-[#F0F0F5] mb-2 tracking-tight">Book Your Setup</h2>
+            <p className="text-[13px] text-[#5A5A70]">Schedule a consultation for custom hardware and managed replenishment services.</p>
           </div>
-          
-          <form className="grid gap-5">
+
+          <form className="space-y-4">
             <div className="grid md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <Label htmlFor="business" className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Business Name</Label>
-                <Input id="business" placeholder="Enter company name" className="bg-white border-[#D1D1D6] focus:border-accent h-11 text-[#1C1C1E] placeholder:text-[#C7C7CC] rounded-xl text-sm" />
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-[#5A5A70]">Business Name</label>
+                <input className="form-input" placeholder="Enter company name" />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="service" className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Service Type</Label>
-                <Select>
-                  <SelectTrigger className="bg-white border-[#D1D1D6] h-11 text-[#1C1C1E] rounded-xl text-sm">
-                    <SelectValue placeholder="Select a service" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border-[#D1D1D6] text-[#1C1C1E]">
-                    <SelectItem value="install">Hardware Installation</SelectItem>
-                    <SelectItem value="inventory">Restocking & Managed Inventory</SelectItem>
-                    <SelectItem value="branding">Custom Branding</SelectItem>
-                  </SelectContent>
-                </Select>
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-[#5A5A70]">Service Type</label>
+                <select className="form-input appearance-none cursor-pointer" style={{ backgroundImage: 'none' }}>
+                  <option value="" disabled selected>Select a service</option>
+                  <option value="install">Hardware Installation</option>
+                  <option value="inventory">Restocking & Managed Inventory</option>
+                  <option value="branding">Custom Branding</option>
+                </select>
               </div>
             </div>
-            
+
             <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Contact Email</Label>
-              <Input id="email" type="email" placeholder="name@company.com" className="bg-white border-[#D1D1D6] focus:border-accent h-11 text-[#1C1C1E] placeholder:text-[#C7C7CC] rounded-xl text-sm" />
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-[#5A5A70]">Contact Email</label>
+              <input className="form-input" type="email" placeholder="name@company.com" />
             </div>
 
-            <Button className="w-full bg-accent text-white hover:bg-accent/90 active:scale-[0.98] transition-all h-12 text-sm font-semibold tracking-widest mt-2 shadow-lg shadow-accent/20 rounded-2xl">
+            <motion.button
+              whileHover={{ scale: 1.01, y: -2 }}
+              whileTap={{ scale: 0.98, y: 1 }}
+              className="btn-primary w-full mt-2"
+              style={{ borderRadius: '14px', height: '48px', fontSize: '13px' }}
+            >
               Schedule Service →
-            </Button>
+            </motion.button>
           </form>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Footer */}
-      <footer className="relative py-10 px-6 lg:px-20 z-10 border-t border-[#D1D1D6]/60 pointer-events-none">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6 pointer-events-auto">
+      {/* ─────────────────────────────────────────────
+          FOOTER
+          ───────────────────────────────────────────── */}
+      <footer className="relative py-10 px-6 lg:px-20 z-10 border-t border-white/06 pointer-events-none">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-5 pointer-events-auto">
           <div className="flex items-center gap-2.5">
-            <div className="w-2 h-2 rounded-full bg-accent" />
-            <div className="font-bold text-sm tracking-widest uppercase text-[#1C1C1E]">NEXTGEN VENDING</div>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#0A84FF]" />
+            <span className="text-[12px] font-bold tracking-widest uppercase text-[#F0F0F5]">
+              NEXTGEN VENDING
+            </span>
           </div>
-          <div className="flex gap-8 text-[10px] text-text-muted uppercase tracking-widest">
-            <div>BIRMINGHAM · NYC · ATLANTA</div>
-            <div>© 2025 NEXTGEN VENDING SOLUTIONS</div>
+          <div className="flex gap-8 text-[10px] text-[#3D3D50] uppercase tracking-widest">
+            <span>Birmingham · NYC · Atlanta</span>
+            <span>© 2025 NextGen Vending Solutions</span>
           </div>
         </div>
       </footer>
     </div>
-  );
-}
-
-function ServiceItem({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
-  return (
-    <motion.div 
-      className="flex gap-4 p-4 rounded-2xl transition-all duration-300 ease-out bg-white/60 backdrop-blur-sm border border-white/80 hover:border-accent/30 hover:bg-white hover:shadow-md group cursor-pointer"
-      whileHover={{ x: 4 }}
-    >
-      <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-accent/10 border border-accent/15 flex items-center justify-center text-accent transition-colors group-hover:bg-accent group-hover:text-white">
-        {icon}
-      </div>
-      <div className="min-w-0">
-        <h3 className="text-sm font-bold text-[#1C1C1E] mb-0.5">{title}</h3>
-        <p className="text-text-muted text-xs leading-relaxed">{description}</p>
-      </div>
-      <ArrowRight className="h-4 w-4 text-text-muted ml-auto flex-shrink-0 self-center opacity-0 group-hover:opacity-100 transition-opacity" />
-    </motion.div>
-  );
-}
-
-function FeatureCard({ title, label, description }: { title: string, label: string, description: string }) {
-  return (
-    <motion.div 
-      className="glass p-5 relative overflow-hidden group cursor-pointer hover:shadow-lg transition-all duration-300"
-      whileHover={{ y: -2 }}
-    >
-      <div className="flex items-start justify-between mb-2">
-        <h3 className="text-base font-bold text-[#1C1C1E]">{title}</h3>
-        <span className="text-[9px] font-mono font-semibold uppercase tracking-widest bg-accent/10 text-accent px-2 py-0.5 rounded-full ml-3 flex-shrink-0">{label}</span>
-      </div>
-      <p className="text-text-muted text-xs leading-relaxed">{description}</p>
-      <div className="mt-3 flex items-center text-accent text-[10px] font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
-        Explore <ArrowRight className="ml-1.5 h-3 w-3" />
-      </div>
-    </motion.div>
   );
 }
