@@ -46,18 +46,19 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
     }
 
     const isMobile = window.innerWidth < 1024;
-    groupRef.current.position.x = 0;
+    // Pin layout strictly to the right side of the screen on desktop to clear text completely.
+    groupRef.current.position.x = isMobile ? 0 : 1.4;
     groupRef.current.position.y = (isMobile ? 0 : -0.3) + exitY;
     groupRef.current.scale.setScalar(isMobile ? 0.65 : 1.0);
 
-    // Explode parts
-    if (topRef.current)    topRef.current.position.y    =  1.3 + explodeAmount * 0.65;
-    if (bottomRef.current) bottomRef.current.position.y = -1.3 - explodeAmount * 0.65;
-    if (leftRef.current)   leftRef.current.position.x   = -0.75 - explodeAmount * 0.7;
-    if (rightRef.current)  rightRef.current.position.x  =  0.75 + explodeAmount * 0.7;
-    if (backRef.current)   backRef.current.position.z   = -0.45 - explodeAmount * 0.45;
-    if (racksRef.current)  racksRef.current.position.z  =  explodeAmount * 0.5;
-    if (coolingRef.current) coolingRef.current.position.y = -1.3 - explodeAmount * 1.0;
+    // Explode parts - massively throw the components outward to avoid center-crush
+    if (topRef.current)    topRef.current.position.y    =  1.3 + explodeAmount * 0.9;
+    if (bottomRef.current) bottomRef.current.position.y = -1.3 - explodeAmount * 0.9;
+    if (leftRef.current)   leftRef.current.position.x   = -0.75 - explodeAmount * 1.3;
+    if (rightRef.current)  rightRef.current.position.x  =  0.75 + explodeAmount * 1.3;
+    if (backRef.current)   backRef.current.position.z   = -0.45 - explodeAmount * 0.6;
+    if (racksRef.current)  racksRef.current.position.z  =  explodeAmount * 0.6;
+    if (coolingRef.current) coolingRef.current.position.y = -1.3 - explodeAmount * 1.3;
 
     // Door forward
     const doorTarget = isOpen ? Math.PI * 0.6 : 0;
@@ -180,6 +181,12 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
             <RoundedBox args={[0.12, 2.8, 0.10]} radius={0.04} smoothness={6} position={[0.71, 0, 0]}>
               <meshPhysicalMaterial color={brandColor} metalness={0.75} roughness={0.15} clearcoat={1} />
             </RoundedBox>
+            
+            {/* Hinge / Frame Ambient Shadow Void */}
+            <mesh position={[-0.78, 0, -0.04]}>
+              <boxGeometry args={[0.08, 2.7, 0.08]} />
+              <meshStandardMaterial color="#000000" metalness={0} roughness={1} />
+            </mesh>
 
             {/* ── PAYMENT PANEL (right side of door frame) ── */}
             <group position={[0.58, 0.3, 0.06]}>

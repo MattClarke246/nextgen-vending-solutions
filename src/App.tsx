@@ -63,7 +63,7 @@ export default function App() {
     { hex: '#E3E4E5', label: 'Silver' },
     { hex: '#5C5C5F', label: 'Space Gray' },
     { hex: '#2E3641', label: 'Midnight' },
-    { hex: '#E00021', label: 'Product Red' },
+    { hex: '#8A0014', label: 'Product Red' },
   ];
 
   return (
