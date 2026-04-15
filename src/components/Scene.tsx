@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber';
-import { PerspectiveCamera, ContactShadows, Environment, AccumulativeShadows, RandomizedLight } from '@react-three/drei';
+import { PerspectiveCamera, ContactShadows, Environment } from '@react-three/drei';
 import { VendingMachine } from './VendingMachine';
 import { Suspense } from 'react';
 

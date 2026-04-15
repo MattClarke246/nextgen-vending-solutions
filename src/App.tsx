@@ -399,8 +399,8 @@ export default function App() {
               </div>
               <div className="space-y-1.5">
                 <label className="block text-[10px] font-bold uppercase tracking-widest text-[#5A5A70]">Service Type</label>
-                <select className="form-input appearance-none cursor-pointer" style={{ backgroundImage: 'none' }}>
-                  <option value="" disabled selected>Select a service</option>
+                <select className="form-input appearance-none cursor-pointer" style={{ backgroundImage: 'none' }} defaultValue="">
+                  <option value="" disabled>Select a service</option>
                   <option value="install">Hardware Installation</option>
                   <option value="inventory">Restocking & Managed Inventory</option>
                   <option value="branding">Custom Branding</option>

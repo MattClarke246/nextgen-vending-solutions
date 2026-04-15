@@ -1,6 +1,6 @@
 import { useRef, useState, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Float, Html, RoundedBox, Text } from '@react-three/drei';
+import { Float, Html, RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface VendingMachineProps {
