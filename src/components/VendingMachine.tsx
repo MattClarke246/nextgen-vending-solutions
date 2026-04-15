@@ -107,7 +107,7 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
 
         {/* ── INTERIOR ── */}
         {/* Interior backdrop – bright white reflective surface */}
-        <mesh position={[0, 0, -0.36]}>
+        <mesh position={[0, 0, -0.35]}>
           <planeGeometry args={[1.42, 2.62]} />
           <meshStandardMaterial color="#F8F8F8" roughness={0.1} metalness={0.3} />
         </mesh>
