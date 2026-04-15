@@ -21,11 +21,11 @@ export function Scene({ scrollProgress, customization }: SceneProps) {
         <pointLight position={[-10, -10, -10]} intensity={2} color="#0033ff" />
         <pointLight position={[0, 0, 5]} intensity={1.5} color="#00e5ff" />
         
-        <Sparkles count={150} scale={12} size={2} speed={0.4} opacity={0.8} color="#00e5ff" />
+        <Sparkles count={150} scale={12} size={1} speed={0.1} opacity={0.4} color="#00e5ff" noise={0.1} />
         
         <Suspense fallback={null}>
           <VendingMachine scrollProgress={scrollProgress} customization={customization} />
-          <Environment preset="night" />
+          <Environment preset="city" environmentIntensity={0.2} />
         </Suspense>
 
         <ContactShadows 

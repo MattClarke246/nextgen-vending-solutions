@@ -248,12 +248,12 @@ export default function App() {
             <div className="grid md:grid-cols-2 gap-5">
               <div className="space-y-2">
                 <Label htmlFor="business" className="text-[11px] uppercase tracking-wider text-text-muted">Business Name</Label>
-                <Input id="business" placeholder="Enter company name" className="bg-black/5 border-border focus:border-accent h-12" />
+                <Input id="business" placeholder="Enter company name" className="bg-white/5 border-border focus:border-accent h-12 text-white placeholder:text-text-muted" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="service" className="text-[11px] uppercase tracking-wider text-text-muted">Service Type</Label>
                 <Select>
-                  <SelectTrigger className="bg-black/5 border-border h-12">
+                  <SelectTrigger className="bg-white/5 border-border h-12 text-white">
                     <SelectValue placeholder="Select a service" />
                   </SelectTrigger>
                   <SelectContent className="bg-[#040b16] border-border text-white">
@@ -267,7 +267,7 @@ export default function App() {
             
             <div className="space-y-2">
               <Label htmlFor="email" className="text-[11px] uppercase tracking-wider text-text-muted">Contact Email</Label>
-              <Input id="email" type="email" placeholder="name@company.com" className="bg-black/5 border-border focus:border-accent h-12" />
+              <Input id="email" type="email" placeholder="name@company.com" className="bg-white/5 border-border focus:border-accent h-12 text-white placeholder:text-text-muted" />
             </div>
 
             <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 h-14 text-sm font-bold uppercase tracking-widest mt-4">
