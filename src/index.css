@@ -1,11 +1,11 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import "@fontsource-variable/geist";
 
 /* ═══════════════════════════════════════════════════════
    NEXTGEN VENDING — LUXURY DARK DESIGN SYSTEM
    Inspired by Apple Vision Pro + Mac Pro aesthetics
    ═══════════════════════════════════════════════════════ */
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 /* ── Design Tokens ── */
 @theme {
@@ -122,7 +122,7 @@
    GLASS SYSTEM — Layered glassmorphism
    ═══════════════════════════════════════════════════════ */
 
-.glass-base {
+.glass-base, .glass {
   background: rgba(255,255,255,0.04);
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
@@ -134,10 +134,6 @@
     0 1px 0 rgba(255,255,255,0.07) inset,
     0 8px 40px rgba(0,0,0,0.45),
     0 2px 8px rgba(0,0,0,0.20);
-}
-
-.glass {
-  @apply glass-base;
 }
 
 .glass-raised {
@@ -398,7 +394,7 @@
    BOOKING FORM CARD
    ═══════════════════════════════════════════════════════ */
 
-.book-card {
+.book-card, .side-panel-card {
   background: rgba(255,255,255,0.04);
   backdrop-filter: blur(40px) saturate(180%);
   -webkit-backdrop-filter: blur(40px) saturate(180%);
@@ -470,14 +466,6 @@
 }
 
 /* ═══════════════════════════════════════════════════════
-   SIDE-PANEL CARD (Kept for booking compatibility)
-   ═══════════════════════════════════════════════════════ */
-
-.side-panel-card {
-  @apply book-card;
-}
-
-/* ═══════════════════════════════════════════════════════
    SCROLLBAR
    ═══════════════════════════════════════════════════════ */
 
@@ -496,7 +484,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "@fontsource-variable/geist";
 
 @custom-variant dark (&:is(.dark *));
 
