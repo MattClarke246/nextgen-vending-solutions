@@ -30,7 +30,7 @@ export default function App() {
     brandColor: string;
     productType: 'drinks' | 'snacks' | 'mixed';
   }>({
-    brandColor: '#fdfdfd',
+    brandColor: '#f5f5f7',
     productType: 'mixed'
   });
 
@@ -78,7 +78,7 @@ export default function App() {
             <div className="space-y-3">
               <Label className="text-[10px] uppercase tracking-wider text-text-muted">Machine Finish</Label>
               <div className="flex gap-2">
-                {['#fdfdfd', '#f5f5f7', '#e5e5ea', '#1d1d1f'].map((color) => (
+                {['#f5f5f7', '#1d1d1d', '#b0b1b4', '#d2c0a5'].map((color) => (
                   <button
                     key={color}
                     onClick={() => setCustomization(prev => ({ ...prev, brandColor: color }))}
@@ -123,12 +123,11 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <span className="badge-sleek mb-6">
-              The Future of Automated Retail
+            <span className="badge-sleek mb-2">
+              NEW
             </span>
-            <h1 className="text-6xl lg:text-[64px] font-bold tracking-[-0.03em] leading-[1.1] mb-6 text-gradient">
-              Managed Solutions <br />
-              for Modern Spaces.
+            <h1 className="text-4xl md:text-[56px] font-semibold tracking-[-0.03em] leading-[1.05] mb-6">
+              <span className="text-[#1d1d1f]">Managed Solutions.</span> <span className="text-[#86868b] font-medium">Take a look at what's new, right now.</span>
             </h1>
             <p className="text-lg text-text-muted mb-10 max-w-md leading-relaxed">
               From smart restocks to autonomous maintenance, we provide fully managed vending ecosystems for high-growth businesses.
@@ -170,8 +169,8 @@ export default function App() {
               transition={{ duration: 1 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl lg:text-5xl font-bold mb-12 tracking-tight">
-                Premium <span className="text-accent neon-glow">Services</span>
+              <h2 className="text-4xl lg:text-5xl font-semibold mb-12 tracking-tight text-[#1d1d1f]">
+                Premium Services.
               </h2>
               
               <div className="space-y-6">
@@ -205,12 +204,12 @@ export default function App() {
       <section className="relative min-h-screen py-32 px-6 lg:px-16 z-10 pointer-events-none">
         <div className="text-center mb-32 pointer-events-auto">
           <motion.h2 
-            className="text-4xl lg:text-6xl font-bold mb-6 tracking-tight"
+            className="text-4xl md:text-[56px] font-semibold tracking-tight text-[#1d1d1f] mb-6 leading-tight"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
           >
-            Engineered for <span className="text-accent neon-glow">Excellence</span>
+            Engineered for Excellence.
           </motion.h2>
           <p className="text-text-muted max-w-2xl mx-auto">
             Our machines are built with cutting-edge technology and precision components to deliver a seamless experience.

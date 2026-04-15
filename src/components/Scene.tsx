@@ -16,14 +16,13 @@ export function Scene({ scrollProgress, customization }: SceneProps) {
     <div className="fixed inset-0 z-0 pointer-events-auto">
       <Canvas shadows dpr={[1, 2]}>
         <PerspectiveCamera makeDefault position={[0, 0, 6]} fov={45} />
-        <ambientLight intensity={1.2} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1.5} castShadow color="#ffffff" />
-        <pointLight position={[-10, -10, -10]} intensity={1} color="#ffffff" />
-        <pointLight position={[0, 5, 10]} intensity={0.5} color="#ffffff" />
+        <ambientLight intensity={1.5} />
+        <spotLight position={[5, 10, 5]} angle={0.25} penumbra={1} intensity={2} castShadow color="#ffffff" />
+        <pointLight position={[-5, -5, -5]} intensity={1.5} color="#ffffff" />
         
         <Suspense fallback={null}>
           <VendingMachine scrollProgress={scrollProgress} customization={customization} />
-          <Environment preset="studio" />
+          <Environment preset="apartment" />
         </Suspense>
 
         <ContactShadows 

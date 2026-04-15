@@ -1,6 +1,6 @@
 import { useRef, useState, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Float, Environment, ContactShadows, Html } from '@react-three/drei';
+import { Float, Environment, ContactShadows, Html, RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface VendingMachineProps {
@@ -68,55 +68,56 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
     >
       <Float speed={isOpen ? 0 : 2} rotationIntensity={isOpen ? 0 : 0.5} floatIntensity={isOpen ? 0 : 0.5}>
         {/* Main Body */}
-        <mesh position={[0, 0, 0]} castShadow>
-          <boxGeometry args={[1.5, 2.5, 1]} />
-          <meshPhysicalMaterial color={customization.brandColor} metalness={0.3} roughness={0.1} clearcoat={1} clearcoatRoughness={0.1} />
-        </mesh>
+        <RoundedBox args={[1.5, 2.5, 1]} radius={0.08} smoothness={8} position={[0, 0, 0]} castShadow>
+          <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
+        </RoundedBox>
 
         {/* Interior */}
-        <mesh position={[0, 0, -0.1]}>
-          <boxGeometry args={[1.3, 2.3, 0.8]} />
-          <meshStandardMaterial color="#f0f0f5" />
+        <RoundedBox args={[1.35, 2.35, 0.8]} radius={0.04} smoothness={4} position={[0, 0, -0.05]}>
+          <meshStandardMaterial color="#fdfdfd" />
+        </RoundedBox>
+
+        {/* Interior LED Light Strip */}
+        <mesh position={[0, 1.15, 0.2]}>
+          <boxGeometry args={[1.2, 0.05, 0.05]} />
+          <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={2} />
         </mesh>
 
         {/* Door Group (Glass + Frame) */}
         <group ref={doorRef} position={[0.75, 0, 0.5]}>
           <group position={[-0.75, 0, 0]}>
             {/* Glass Front */}
-            <mesh position={[0, 0.1, 0.01]}>
-              <boxGeometry args={[1.3, 2, 0.05]} />
+            <RoundedBox args={[1.3, 2, 0.05]} radius={0.02} smoothness={4} position={[0, 0.1, 0.01]}>
               <meshPhysicalMaterial 
                 transparent 
-                opacity={0.3} 
-                transmission={0.9} 
-                thickness={0.5} 
-                roughness={0} 
-                metalness={0}
-                color="#88ccff"
+                opacity={0.2} 
+                transmission={0.95} 
+                thickness={0.8} 
+                roughness={0.05} 
+                metalness={0.1}
+                clearcoat={1}
+                clearcoatRoughness={0}
+                color="#eef2ff"
               />
-            </mesh>
+            </RoundedBox>
             {/* Door Frame (Hollow) */}
             <group position={[0, 0, 0]}>
               {/* Left */}
-              <mesh position={[-0.65, 0, 0]}>
-                <boxGeometry args={[0.2, 2.5, 0.1]} />
-                <meshStandardMaterial color="#e5e5ea" metalness={0.8} roughness={0.2} />
-              </mesh>
+              <RoundedBox args={[0.2, 2.5, 0.1]} radius={0.04} smoothness={4} position={[-0.65, 0, 0]}>
+                <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
+              </RoundedBox>
               {/* Right */}
-              <mesh position={[0.65, 0, 0]}>
-                <boxGeometry args={[0.2, 2.5, 0.1]} />
-                <meshStandardMaterial color="#e5e5ea" metalness={0.8} roughness={0.2} />
-              </mesh>
+              <RoundedBox args={[0.2, 2.5, 0.1]} radius={0.04} smoothness={4} position={[0.65, 0, 0]}>
+                <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
+              </RoundedBox>
               {/* Top */}
-              <mesh position={[0, 1.15, 0]}>
-                <boxGeometry args={[1.1, 0.2, 0.1]} />
-                <meshStandardMaterial color="#e5e5ea" metalness={0.8} roughness={0.2} />
-              </mesh>
+              <RoundedBox args={[1.1, 0.2, 0.1]} radius={0.04} smoothness={4} position={[0, 1.15, 0]}>
+                <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
+              </RoundedBox>
               {/* Bottom */}
-              <mesh position={[0, -1.15, 0]}>
-                <boxGeometry args={[1.1, 0.2, 0.1]} />
-                <meshStandardMaterial color="#e5e5ea" metalness={0.8} roughness={0.2} />
-              </mesh>
+              <RoundedBox args={[1.1, 0.2, 0.1]} radius={0.04} smoothness={4} position={[0, -1.15, 0]}>
+                <meshPhysicalMaterial color={customization.brandColor} metalness={0.6} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
+              </RoundedBox>
             </group>
             
             {/* Payment Panel (Attached to door) */}
@@ -144,18 +145,19 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
 }
 
 function PaymentPanel({ scrollProgress }: { scrollProgress: any }) {
-  const ref = useRef<THREE.Mesh>(null);
+  const ref = useRef<THREE.Group>(null);
   
   return (
-    <mesh ref={ref} position={[0.6, 0.5, 0.06]}>
-      <boxGeometry args={[0.2, 0.8, 0.1]} />
-      <meshStandardMaterial color="#1d1d1f" metalness={0.9} roughness={0.1} />
+    <group ref={ref} position={[0.6, 0.5, 0.06]}>
+      <RoundedBox args={[0.2, 0.8, 0.1]} radius={0.02} smoothness={4}>
+        <meshPhysicalMaterial color="#1d1d1f" metalness={0.8} roughness={0.2} clearcoat={1} />
+      </RoundedBox>
       {/* Screen */}
       <mesh position={[0, 0.2, 0.051]}>
         <planeGeometry args={[0.15, 0.2]} />
-        <meshStandardMaterial color="#0071e3" emissive="#0071e3" emissiveIntensity={1.5} />
+        <meshStandardMaterial color="#fdfdfd" emissive="#fdfdfd" emissiveIntensity={0.8} />
       </mesh>
-    </mesh>
+    </group>
   );
 }
 
@@ -176,10 +178,9 @@ function Racks({ scrollProgress, productType }: { scrollProgress: any, productTy
   const products = useMemo(() => {
     return [0.6, 0.2, -0.2, -0.6].map((y, i) => (
       <group key={i} position={[0, y, 0.1]}>
-        <mesh>
-          <boxGeometry args={[1.2, 0.02, 0.6]} />
-          <meshStandardMaterial color="#d1d1d6" metalness={0.4} roughness={0.3} />
-        </mesh>
+        <RoundedBox args={[1.2, 0.02, 0.6]} radius={0.01} smoothness={4}>
+          <meshStandardMaterial color="#ffffff" metalness={0.2} roughness={0.1} />
+        </RoundedBox>
         {[-0.4, -0.2, 0, 0.2, 0.4].map((x, j) => {
           const isDrink = productType === 'drinks' || (productType === 'mixed' && i < 2);
           return (

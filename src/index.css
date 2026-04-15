@@ -3,11 +3,11 @@
 
 @theme {
   --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
-  --color-bg: #fdfdfd;
+  --color-bg: #f5f5f7;
   --color-accent: #0071e3;
   --color-accent-foreground: #ffffff;
-  --color-glass: rgba(255, 255, 255, 0.6);
-  --color-border: rgba(0, 0, 0, 0.08);
+  --color-glass: #ffffff;
+  --color-border: rgba(0, 0, 0, 0.05);
   --color-text-muted: #86868b;
 }
 
@@ -18,11 +18,11 @@
 }
 
 .glass {
-  @apply bg-glass backdrop-blur-2xl border border-border shadow-sm;
+  @apply bg-[#ffffff] border border-border shadow-[0_4px_24px_rgba(0,0,0,0.04)] rounded-[20px];
 }
 
 .badge-sleek {
-  @apply inline-block px-3.5 py-1.5 bg-[rgba(0,113,227,0.1)] border border-accent text-accent rounded-full text-[11px] font-semibold tracking-wider uppercase;
+  @apply inline-block px-2.5 py-0.5 bg-transparent text-[#bf4800] rounded-full text-[10px] font-semibold tracking-widest uppercase mb-2;
 }
 
 .text-gradient {
@@ -30,11 +30,11 @@
 }
 
 .neon-glow {
-  text-shadow: 0 4px 12px rgba(0, 113, 227, 0.2);
+  text-shadow: none;
 }
 
 .side-panel-card {
-  @apply bg-glass border border-border p-8 rounded-[20px] shadow-sm;
+  @apply bg-[#ffffff] border border-transparent p-8 rounded-[24px] shadow-[0_8px_32px_rgba(0,0,0,0.06)];
 }
 
 @import "tw-animate-css";
