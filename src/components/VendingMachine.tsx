@@ -27,32 +27,22 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
     const targetRotation = isOpen ? -Math.PI * 0.6 : 0;
     doorRef.current.rotation.y = THREE.MathUtils.lerp(doorRef.current.rotation.y, targetRotation, 0.1);
 
-    // Base rotation (only if door is closed or in certain sections)
+    // Stable Display Case Positioning (No bouncing)
+    // On desktop, push it to the right half so text on the left is readable.
+    // On mobile, center it but push it down slightly to stay underneath text.
+    const isMobile = window.innerWidth < 1024;
+    groupRef.current.position.x = isMobile ? 0 : 2.5;
+    groupRef.current.position.y = isMobile ? 0 : -0.5;
+    groupRef.current.scale.setScalar(isMobile ? 0.7 : 1.1);
+
+    // Clean spin mechanics based purely on scroll depth
     if (!isOpen) {
-      groupRef.current.rotation.y = progress * Math.PI * 2 + state.clock.getElapsedTime() * 0.2;
+      // At top of page (progress=0), faces forward.
+      // Spins slowly exactly 2 full rotations as user scrolls the entire page.
+      groupRef.current.rotation.y = progress * Math.PI * 4;
     } else {
-      // If open, face the user more directly but with a slight tilt
-      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, 0.2, 0.1);
-    }
-    
-    // Position shifting (same as before)
-    if (progress < 0.25) {
-      groupRef.current.position.x = 0;
-      groupRef.current.position.y = -0.5;
-      groupRef.current.scale.setScalar(1);
-    } else if (progress < 0.5) {
-      const t = (progress - 0.25) / 0.25;
-      groupRef.current.position.x = THREE.MathUtils.lerp(0, 2, t);
-      groupRef.current.scale.setScalar(THREE.MathUtils.lerp(1, 0.8, t));
-    } else if (progress < 0.75) {
-      const t = (progress - 0.5) / 0.25;
-      groupRef.current.position.x = THREE.MathUtils.lerp(2, 0, t);
-      groupRef.current.scale.setScalar(THREE.MathUtils.lerp(0.8, 1.2, t));
-    } else {
-      const t = (progress - 0.75) / 0.25;
-      groupRef.current.position.x = 0;
-      groupRef.current.scale.setScalar(THREE.MathUtils.lerp(1.2, 0.5, t));
-      groupRef.current.position.y = THREE.MathUtils.lerp(-0.5, -2, t);
+      // When user clicks to open, lock the machine towards them to examine products
+      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, 0.1, 0.1);
     }
   });
 
