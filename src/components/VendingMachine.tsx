@@ -126,14 +126,7 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
         <pointLight position={[0, 0, -0.1]} intensity={0.8} color="#FFFFFF" distance={2.5} />
         <pointLight position={[0, -0.8, -0.1]} intensity={0.8} color="#FFFFFF" distance={2.5} />
 
-        {/* ── LOGO PANEL (top) ── */}
-        <mesh position={[0, 0.98, 0.47]}>
-          <planeGeometry args={[1.1, 0.28]} />
-          <meshStandardMaterial color={isDark ? '#1C1C1E' : '#0A84FF'} roughness={0.3} metalness={0.5} />
-          <Text position={[0, 0, 0.01]} fontSize={0.11} fontWeight={800} letterSpacing={0.2} color="#FFFFFF" fillOpacity={0.9}>
-            NEXTGEN
-          </Text>
-        </mesh>
+
 
         {/* ── PRODUCT RACKS (inside machine) ── */}
         <group ref={racksRef}>
@@ -189,6 +182,16 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
               <mesh position={[0, -1.27, 0]}><boxGeometry args={[1.2, 0.08, 0.01]} /><meshStandardMaterial color="#000" roughness={0.5} /></mesh>
               <mesh position={[-0.56, 0, 0]}><boxGeometry args={[0.08, 2.62, 0.01]} /><meshStandardMaterial color="#000" roughness={0.5} /></mesh>
               <mesh position={[0.56, 0, 0]}><boxGeometry args={[0.08, 2.62, 0.01]} /><meshStandardMaterial color="#000" roughness={0.5} /></mesh>
+            </group>
+
+            {/* ── EXTERIOR LOGO PLATE (Mounted on Door) ── */}
+            <group position={[0, 1.15, 0.035]}>
+              <RoundedBox args={[0.9, 0.22, 0.02]} radius={0.01} smoothness={4}>
+                <meshStandardMaterial color={isDark ? '#1C1C1E' : '#0A84FF'} roughness={0.3} metalness={0.8} />
+              </RoundedBox>
+              <Text position={[0, 0, 0.011]} fontSize={0.10} fontWeight={800} letterSpacing={0.2} color="#FFFFFF" fillOpacity={0.9}>
+                NEXTGEN
+              </Text>
             </group>
 
             {/* Door frame – left pillar */}
