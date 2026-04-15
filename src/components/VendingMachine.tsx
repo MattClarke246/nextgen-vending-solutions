@@ -59,15 +59,11 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
     // Push entire door assembly forward during explosion
     doorRef.current.position.z = 0.5 + (explodeAmount * 0.6);
 
-    // Clean spin mechanics
+    // Clean rotation mechanics
     if (!isOpen) {
-      if (explodeAmount > 0.1) {
-         // High-tech diagram mode: override scroll spin with constant examination spin
-         groupRef.current.rotation.y += 0.008;
-      } else {
-         // Standard page scroll spin
-         groupRef.current.rotation.y = progress * Math.PI * 4;
-      }
+      // Deterministically tie the diagram rotation STRICTLY to the scroll depth.
+      // This guarantees flawless matched rotational positioning whether scrolling forwards or backwards.
+      groupRef.current.rotation.y = progress * Math.PI * 6; // Completes 3 elegant full rotations mapped accurately to viewport depth
     } else {
       // Focus lock when opened
       groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, 0.1, 0.1);
