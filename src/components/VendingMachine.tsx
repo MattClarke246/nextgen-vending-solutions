@@ -30,7 +30,7 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
   const brandColor = customization.brandColor;
   const isDark = brandColor === '#0A0A0A' || brandColor === '#8A0014' || brandColor === '#0B1A30';
 
-  useFrame(() => {
+  useFrame((state) => {
     if (!groupRef.current || !doorRef.current) return;
     const progress = scrollProgress.get();
 
