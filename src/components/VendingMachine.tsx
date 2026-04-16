@@ -57,9 +57,17 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
       else targetX = 1.4; // Exit - Right side
     }
     
-    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.06);
-    groupRef.current.position.y = (isMobile ? 0.6 : -0.3) + exitY;
-    groupRef.current.scale.setScalar(isMobile ? 0.55 : 1.0);
+    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.10);
+
+    // Y position: drop lower in hero so machine sits BELOW headline, then rise to normal
+    let targetY = isMobile ? 0.6 : -0.3;
+    if (!isMobile && progress < 0.25) targetY = -0.85; // hero: lower half of screen, clear headline
+    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY + exitY, 0.08);
+
+    // Scale: slightly smaller in hero for showcase breathing room
+    const targetScale = isMobile ? 0.55 : (progress < 0.25 ? 0.82 : 1.0);
+    const currentScale = groupRef.current.scale.x;
+    groupRef.current.scale.setScalar(THREE.MathUtils.lerp(currentScale, targetScale, 0.06));
 
     // Explode parts - restrict outward throw on mobile so it doesn't clip off small screens
     const explodeX = explodeAmount * (isMobile ? 0.4 : 1.3);

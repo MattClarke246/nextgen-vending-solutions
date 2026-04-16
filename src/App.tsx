@@ -189,7 +189,7 @@ export default function App() {
                       whileHover={{ scale: 1.15 }}
                       whileTap={{ scale: 0.92 }}
                       onClick={() => setCustomization(p => ({ ...p, brandColor: hex }))}
-                      className="relative w-6 h-6 md:w-7 md:h-7 rounded-full transition-all"
+                      className="relative w-6 h-6 md:w-7 md:h-7 rounded-full transition-all ring-1 ring-white/20"
                       style={{ backgroundColor: hex }}
                     >
                       {customization.brandColor === hex && (
