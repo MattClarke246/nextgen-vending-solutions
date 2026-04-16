@@ -242,12 +242,15 @@ export default function App() {
       {/* ═════════════════════════════════════════════
           HERO SECTION — CENTERED SHOWCASE
           ═════════════════════════════════════════════ */}
-      <section className="relative min-h-[100svh] flex flex-col justify-start pt-32 pb-40 md:pb-0 px-6 lg:px-20 z-10 pointer-events-none">
+      <section className="relative min-h-[100svh] flex flex-col justify-end md:justify-start md:pt-32 pb-52 md:pb-0 px-6 lg:px-20 z-10 pointer-events-none">
+        {/* Mobile: gradient separates machine (upper) from text (lower) */}
+        <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-[#08080C] via-[#08080C]/85 to-transparent pointer-events-none md:hidden" />
+
         <motion.div
           variants={stagger}
           initial="hidden"
           animate="visible"
-          className="w-full pointer-events-auto flex flex-col items-center text-center space-y-6 md:space-y-7 bg-[#08080C]/70 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-0 rounded-3xl border border-white/5 md:border-transparent mt-8"
+          className="relative w-full pointer-events-auto flex flex-col items-center text-center space-y-4 md:space-y-7 md:mt-8"
         >
           <motion.div variants={fadeUp}>
             <span className="badge-sleek mx-auto">
@@ -258,7 +261,7 @@ export default function App() {
 
           <motion.h1
             variants={fadeUp}
-            className="text-[52px] lg:text-[90px] font-bold tracking-[-0.045em] leading-[0.95] text-gradient"
+            className="text-[40px] md:text-[90px] font-bold tracking-[-0.045em] leading-[0.95] text-gradient"
           >
             Managed <span className="text-gradient-blue">Vending</span><br />
             Ecosystems.
@@ -266,12 +269,12 @@ export default function App() {
 
           <motion.p
             variants={fadeUp}
-            className="text-[16px] text-[#5A5A70] leading-relaxed max-w-xl mx-auto"
+            className="text-[14px] md:text-[16px] text-[#5A5A70] leading-relaxed max-w-sm md:max-w-xl mx-auto"
           >
             From smart restocks to autonomous maintenance — fully managed vending infrastructure for high-growth businesses.
           </motion.p>
 
-          <motion.div variants={fadeUp} className="flex justify-center gap-3 pt-3">
+          <motion.div variants={fadeUp} className="flex justify-center gap-3 pt-1 md:pt-3">
             <button className="btn-primary">
               Request Site Survey <ArrowRight className="ml-2 h-4 w-4 inline-block" />
             </button>
@@ -280,7 +283,7 @@ export default function App() {
             </button>
           </motion.div>
 
-          <motion.div variants={fadeUp} className="flex justify-center gap-8 pt-4">
+          <motion.div variants={fadeUp} className="flex justify-center gap-6 md:gap-8 pt-3 md:pt-4">
             <div className="stat-pill items-center border-none pl-0">
               <span className="stat-value">99.8%</span>
               <span className="stat-label">Uptime</span>
@@ -298,9 +301,9 @@ export default function App() {
           </motion.div>
         </motion.div>
 
-        {/* Enterprise Marquee */}
+        {/* Enterprise Marquee — desktop only */}
         <motion.div 
-          className="absolute bottom-24 left-0 right-0 w-full opacity-50 mix-blend-screen pointer-events-none"
+          className="absolute bottom-24 left-0 right-0 w-full opacity-50 mix-blend-screen pointer-events-none hidden md:block"
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.5 }}
           transition={{ delay: 0.5, duration: 1 }}
@@ -321,9 +324,9 @@ export default function App() {
           </div>
         </motion.div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator — desktop only */}
         <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#3D3D50] pointer-events-none"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-[#3D3D50] pointer-events-none"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
         >
@@ -335,9 +338,9 @@ export default function App() {
       {/* ═════════════════════════════════════════════
           SERVICES SECTION
           ═════════════════════════════════════════════ */}
-      <section className="relative min-h-[100svh] flex flex-col justify-end md:justify-center py-24 md:py-36 px-6 lg:px-20 z-10 pointer-events-none">
+      <section className="relative min-h-[100svh] flex flex-col justify-center py-24 md:py-36 px-6 lg:px-20 z-10 pointer-events-none">
         <motion.div
-          className="max-w-[480px] pointer-events-auto space-y-8 md:space-y-10 bg-[#08080C]/70 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-0 rounded-3xl border border-white/5 md:border-transparent"
+          className="max-w-[480px] pointer-events-auto space-y-8 md:space-y-10"
           variants={stagger}
           initial="hidden"
           whileInView="visible"
