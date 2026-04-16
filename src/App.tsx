@@ -70,6 +70,8 @@ export default function App() {
 
   return (
     <div ref={containerRef} className="page-root">
+      {/* High-Tech Grid Layer */}
+      <div className="bg-tech-grid" />
       {/* Ambient bottom-right glow */}
       <div className="glow-br" />
 
@@ -238,17 +240,17 @@ export default function App() {
       </div>
 
       {/* ═════════════════════════════════════════════
-          HERO SECTION
+          HERO SECTION — CENTERED SHOWCASE
           ═════════════════════════════════════════════ */}
-      <section className="relative min-h-[100svh] flex flex-col justify-end md:justify-center pb-40 md:pb-0 px-6 lg:px-20 z-10 pointer-events-none">
+      <section className="relative min-h-[100svh] flex flex-col justify-start pt-32 pb-40 md:pb-0 px-6 lg:px-20 z-10 pointer-events-none">
         <motion.div
           variants={stagger}
           initial="hidden"
           animate="visible"
-          className="max-w-[480px] pointer-events-auto space-y-6 md:space-y-7 bg-[#08080C]/70 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-0 rounded-3xl border border-white/5 md:border-transparent"
+          className="w-full pointer-events-auto flex flex-col items-center text-center space-y-6 md:space-y-7 bg-[#08080C]/70 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-0 rounded-3xl border border-white/5 md:border-transparent mt-8"
         >
           <motion.div variants={fadeUp}>
-            <span className="badge-sleek">
+            <span className="badge-sleek mx-auto">
               <span className="w-1.5 h-1.5 rounded-full bg-[#0A84FF] inline-block" />
               Smart Vending Solutions
             </span>
@@ -256,21 +258,20 @@ export default function App() {
 
           <motion.h1
             variants={fadeUp}
-            className="text-[52px] lg:text-[72px] font-bold tracking-[-0.045em] leading-[0.95] text-gradient"
+            className="text-[52px] lg:text-[90px] font-bold tracking-[-0.045em] leading-[0.95] text-gradient"
           >
-            Managed<br />
-            <span className="text-gradient-blue">Vending</span><br />
+            Managed <span className="text-gradient-blue">Vending</span><br />
             Ecosystems.
           </motion.h1>
 
           <motion.p
             variants={fadeUp}
-            className="text-[15px] text-[#5A5A70] leading-relaxed max-w-sm"
+            className="text-[16px] text-[#5A5A70] leading-relaxed max-w-xl mx-auto"
           >
             From smart restocks to autonomous maintenance — fully managed vending infrastructure for high-growth businesses.
           </motion.p>
 
-          <motion.div variants={fadeUp} className="flex gap-3 pt-1">
+          <motion.div variants={fadeUp} className="flex justify-center gap-3 pt-3">
             <button className="btn-primary">
               Request Site Survey <ArrowRight className="ml-2 h-4 w-4 inline-block" />
             </button>
@@ -279,37 +280,54 @@ export default function App() {
             </button>
           </motion.div>
 
-          <motion.div variants={fadeUp} className="flex gap-8 pt-3">
-            <div className="stat-pill">
+          <motion.div variants={fadeUp} className="flex justify-center gap-8 pt-4">
+            <div className="stat-pill items-center border-none pl-0">
               <span className="stat-value">99.8%</span>
               <span className="stat-label">Uptime</span>
             </div>
-            <div className="stat-pill">
+            <div className="w-[1px] h-8 bg-white/10" />
+            <div className="stat-pill items-center border-none pl-0">
               <span className="stat-value">IoT</span>
-              <span className="stat-label">Smart Monitor</span>
+              <span className="stat-label">Monitor</span>
             </div>
-            <div className="stat-pill">
+            <div className="w-[1px] h-8 bg-white/10" />
+            <div className="stat-pill items-center border-none pl-0">
               <span className="stat-value">24hr</span>
               <span className="stat-label">Response</span>
             </div>
           </motion.div>
+        </motion.div>
 
-          <motion.div variants={fadeUp} className="pt-6 border-t border-white/05 mt-6 w-full">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-[#5A5A70] mb-3">Trusted by Enterprise Hubs</p>
-            <div className="flex gap-6 opacity-60 mix-blend-screen text-xs font-mono tracking-widest font-bold text-white">
+        {/* Enterprise Marquee */}
+        <motion.div 
+          className="absolute bottom-24 left-0 right-0 w-full opacity-50 mix-blend-screen pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.5 }}
+          transition={{ delay: 0.5, duration: 1 }}
+        >
+          <div className="marquee-container">
+            <div className="marquee-content text-xl md:text-3xl font-mono tracking-[0.4em] font-bold text-white uppercase">
               <span>ALBION</span>
               <span>WEWORK</span>
               <span>EQUINOX</span>
+              <span>GUGGENHEIM</span>
+              <span>FOUR SEASONS</span>
+              <span>ALBION</span>
+              <span>WEWORK</span>
+              <span>EQUINOX</span>
+              <span>GUGGENHEIM</span>
+              <span>FOUR SEASONS</span>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
 
         {/* Scroll indicator */}
         <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#3D3D50]"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#3D3D50] pointer-events-none"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
         >
+          <span className="text-[9px] font-bold uppercase tracking-widest">Scroll to Explore</span>
           <ChevronDown className="h-4 w-4" />
         </motion.div>
       </section>
@@ -365,11 +383,13 @@ export default function App() {
             ].map(({ icon, title, desc }, i) => (
               <motion.div
                 key={title}
-                className="service-card"
+                className="service-card relative overflow-hidden group"
                 custom={i}
                 variants={fadeUp}
                 whileHover="hover"
               >
+                {/* Tactical glowing hover accent line */}
+                <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#0A84FF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="service-icon">{icon}</div>
                 <div className="min-w-0">
                   <h3 className="text-[13px] font-bold text-[#F0F0F5] mb-0.5">{title}</h3>
@@ -457,6 +477,24 @@ export default function App() {
                 <input className="form-input" placeholder="Enter company name" />
               </div>
               <div className="space-y-1.5">
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-[#5A5A70]">City / Location</label>
+                <input className="form-input" placeholder="e.g. New York, NY" />
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-[#5A5A70]">Contact Email</label>
+                <input className="form-input" type="email" placeholder="name@company.com" />
+              </div>
+              <div className="space-y-1.5">
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-[#5A5A70]">Phone Number</label>
+                <input className="form-input" type="tel" placeholder="(555) 000-0000" />
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
                 <label className="block text-[10px] font-bold uppercase tracking-widest text-[#5A5A70]">Service Type</label>
                 <select className="form-input appearance-none cursor-pointer" style={{ backgroundImage: 'none' }} defaultValue="">
                   <option value="" disabled>Select a service</option>
@@ -465,11 +503,16 @@ export default function App() {
                   <option value="branding">Custom Branding</option>
                 </select>
               </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="block text-[10px] font-bold uppercase tracking-widest text-[#5A5A70]">Contact Email</label>
-              <input className="form-input" type="email" placeholder="name@company.com" />
+              <div className="space-y-1.5">
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-[#5A5A70]">Timeline</label>
+                <select className="form-input appearance-none cursor-pointer" style={{ backgroundImage: 'none' }} defaultValue="">
+                  <option value="" disabled>Select timeline</option>
+                  <option value="asap">Immediate (ASAP)</option>
+                  <option value="1month">Within 1 Month</option>
+                  <option value="3months">1-3 Months</option>
+                  <option value="planning">Just Planning</option>
+                </select>
+              </div>
             </div>
 
             <motion.button
@@ -478,9 +521,29 @@ export default function App() {
               className="btn-primary w-full mt-2"
               style={{ borderRadius: '14px', height: '48px', fontSize: '13px' }}
             >
-              Schedule Service →
+              Verify Availability →
             </motion.button>
           </form>
+        </motion.div>
+      </section>
+
+      {/* ═════════════════════════════════════════════
+          PRE-FOOTER CTA
+          ═════════════════════════════════════════════ */}
+      <section className="relative py-24 md:py-32 px-6 lg:px-20 z-10 w-full flex flex-col items-center justify-center text-center pointer-events-none">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease }}
+          viewport={{ once: true }}
+          className="pointer-events-auto"
+        >
+          <h2 className="text-[40px] md:text-[56px] font-bold tracking-tight text-white mb-6">
+            Ready to upgrade your space?
+          </h2>
+          <button className="btn-primary scale-110">
+            Let's Talk <ArrowRight className="ml-2 h-4 w-4 inline-block" />
+          </button>
         </motion.div>
       </section>
 

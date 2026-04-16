@@ -21,6 +21,7 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
   const bottomRef = useRef<any>(null);
   const racksRef = useRef<THREE.Group>(null);
   const coolingRef = useRef<THREE.Mesh>(null);
+  const lcdRef = useRef<THREE.MeshStandardMaterial>(null);
 
   const [isOpen, setIsOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -47,8 +48,15 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
 
     const isMobile = window.innerWidth < 1024;
     
-    // Dynamic Spatial Shift - Machine glides to the left side during technical breakdown
-    const targetX = isMobile ? 0 : (progress > 0.45 && progress < 0.72 ? -1.4 : 1.4);
+    // Dynamic Spatial Shift - 3-Stage Cinematic Sweep
+    let targetX = 0;
+    if (!isMobile) {
+      if (progress < 0.25) targetX = 0; // Hero - Center Focus
+      else if (progress >= 0.25 && progress < 0.45) targetX = 1.4; // Services - Right side
+      else if (progress >= 0.45 && progress < 0.72) targetX = -1.4; // Breakdown - Left side
+      else targetX = 1.4; // Exit - Right side
+    }
+    
     groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.06);
     groupRef.current.position.y = (isMobile ? 0.6 : -0.3) + exitY;
     groupRef.current.scale.setScalar(isMobile ? 0.55 : 1.0);
@@ -76,6 +84,11 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
       groupRef.current.rotation.y = progress * Math.PI * 6;
     } else {
       groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, 0.1, 0.1);
+    }
+
+    // LCD Heartbeat Pulse
+    if (lcdRef.current) {
+      lcdRef.current.emissiveIntensity = 1.0 + Math.sin(state.clock.elapsedTime * 4) * 0.4;
     }
   });
 
@@ -224,7 +237,7 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
               {/* LCD screen */}
               <mesh position={[0, 0.3, 0.045]}>
                 <planeGeometry args={[0.16, 0.18]} />
-                <meshStandardMaterial color="#007AFF" emissive="#007AFF" emissiveIntensity={1.2} />
+                <meshStandardMaterial ref={lcdRef} color="#007AFF" emissive="#007AFF" emissiveIntensity={1.2} />
               </mesh>
               {/* Card tap ring */}
               <mesh position={[0, 0.05, 0.045]}>
