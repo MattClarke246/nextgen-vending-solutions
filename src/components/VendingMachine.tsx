@@ -59,19 +59,13 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
     
     groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.10);
 
-    // Y position:
-    //   Mobile: float in UPPER half of screen during hero, exit upward quickly on scroll
-    //   Desktop: sit in lower half during hero (below headline), rise to center otherwise
-    let targetY: number;
-    if (isMobile) {
-      targetY = progress < 0.15 ? 1.2 : 1.2 + (progress - 0.15) * 45;
-    } else {
-      targetY = (progress < 0.25 ? -0.85 : -0.3) + exitY;
-    }
-    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.08);
+    // Y position: drop lower in hero so machine sits BELOW headline, then rise to normal
+    let targetY = isMobile ? 0.6 : -0.3;
+    if (!isMobile && progress < 0.25) targetY = -0.85; // hero: lower half of screen, clear headline
+    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY + exitY, 0.08);
 
-    // Scale: mobile 0.72 for showcase prominence, desktop varies by stage
-    const targetScale = isMobile ? 0.72 : (progress < 0.25 ? 0.82 : 1.0);
+    // Scale: slightly smaller in hero for showcase breathing room
+    const targetScale = isMobile ? 0.55 : (progress < 0.25 ? 0.82 : 1.0);
     const currentScale = groupRef.current.scale.x;
     groupRef.current.scale.setScalar(THREE.MathUtils.lerp(currentScale, targetScale, 0.06));
 
