@@ -46,8 +46,10 @@ export function VendingMachine({ scrollProgress, customization }: VendingMachine
     }
 
     const isMobile = window.innerWidth < 1024;
-    // Pin layout strictly to the right side of the screen on desktop to clear text completely.
-    groupRef.current.position.x = isMobile ? 0 : 1.4;
+    
+    // Dynamic Spatial Shift - Machine glides to the left side during technical breakdown
+    const targetX = isMobile ? 0 : (progress > 0.45 && progress < 0.72 ? -1.4 : 1.4);
+    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.06);
     groupRef.current.position.y = (isMobile ? 0.6 : -0.3) + exitY;
     groupRef.current.scale.setScalar(isMobile ? 0.55 : 1.0);
 
@@ -280,21 +282,61 @@ function Racks({ productType }: { productType: string }) {
           </mesh>
           {/* Products */}
           {[-0.48, -0.28, -0.08, 0.12, 0.32, 0.52].map((x, j) => {
-            const colors = ['#FF3B30', '#34C759', '#007AFF', '#FF9500', '#AF52DE', '#FFCC00'];
+            const colors = ['#FF3B30', '#34C759', '#0A84FF', '#FF9500', '#AF52DE', '#FFCC00'];
+            const itemColor = colors[j % colors.length];
+            const foilColor = colors[(j + 2) % colors.length];
+            // Randomize slight angle for organic placement
+            const rotY = (Math.random() - 0.5) * 0.4;
+            const rotZ = (Math.random() - 0.5) * 0.05;
+
             return (
-              <mesh key={j} position={[x, isDrink ? 0.13 : 0.1, 0]}>
+              <group key={j} position={[x, isDrink ? 0.13 : 0.11, 0]} rotation={[0, rotY, rotZ]}>
                 {isDrink ? (
-                  <cylinderGeometry args={[0.065, 0.065, 0.24, 20]} />
+                  // Soda Can Composite
+                  <group>
+                    {/* Main Label Body */}
+                    <mesh position={[0, 0, 0]}>
+                      <cylinderGeometry args={[0.063, 0.063, 0.19, 24]} />
+                      <meshStandardMaterial color={itemColor} roughness={0.6} metalness={0.1} />
+                    </mesh>
+                    {/* Top Aluminum Rim */}
+                    <mesh position={[0, 0.10, 0]}>
+                      <cylinderGeometry args={[0.063, 0.065, 0.02, 24]} />
+                      <meshStandardMaterial color="#E3E4E5" roughness={0.2} metalness={0.9} />
+                    </mesh>
+                    {/* Bottom Aluminum Base */}
+                    <mesh position={[0, -0.10, 0]}>
+                      <cylinderGeometry args={[0.063, 0.065, 0.02, 24]} />
+                      <meshStandardMaterial color="#E3E4E5" roughness={0.2} metalness={0.9} />
+                    </mesh>
+                  </group>
                 ) : (
-                  <boxGeometry args={[0.11, 0.17, 0.09]} />
+                  // Snack Bag Composite
+                  <group>
+                    {/* Foil crinkled bag */}
+                    <mesh>
+                      <boxGeometry args={[0.11, 0.17, 0.05]} />
+                      <meshPhysicalMaterial
+                        color={foilColor}
+                        roughness={0.3}
+                        metalness={0.6}
+                        clearcoat={1.0}
+                        clearcoatRoughness={0.5}
+                      />
+                    </mesh>
+                    {/* Top heat seal */}
+                    <mesh position={[0, 0.088, 0]}>
+                      <boxGeometry args={[0.11, 0.015, 0.01]} />
+                      <meshStandardMaterial color="#E3E4E5" metalness={0.8} roughness={0.2} />
+                    </mesh>
+                    {/* Bottom heat seal */}
+                    <mesh position={[0, -0.088, 0]}>
+                      <boxGeometry args={[0.11, 0.015, 0.01]} />
+                      <meshStandardMaterial color="#E3E4E5" metalness={0.8} roughness={0.2} />
+                    </mesh>
+                  </group>
                 )}
-                <meshPhysicalMaterial
-                  color={colors[j % colors.length]}
-                  metalness={isDrink ? 0.85 : 0.05}
-                  roughness={isDrink ? 0.1 : 0.4}
-                  clearcoat={isDrink ? 0.8 : 0}
-                />
-              </mesh>
+              </group>
             );
           })}
         </group>

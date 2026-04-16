@@ -59,6 +59,8 @@ export default function App() {
     restDelta: 0.001
   });
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const colors = [
     { hex: '#0A0A0A', label: 'Black' },
     { hex: '#8D9399', label: 'Wolf Grey' },
@@ -109,7 +111,53 @@ export default function App() {
             ))}
           </ul>
         </motion.div>
+
+        {/* Mobile Hamburger Icon */}
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="nav-pill p-3 pointer-events-auto md:hidden text-white"
+          onClick={() => setIsMobileMenuOpen(true)}
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </motion.button>
       </nav>
+
+      {/* Global Scroll Progress Bar */}
+      <motion.div 
+        className="fixed top-0 left-0 right-0 h-[2px] bg-[#0A84FF] z-[60] origin-left"
+        style={{ scaleX: smoothProgress }}
+      />
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, backdropFilter: "blur(16px)" }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            className="fixed inset-0 z-[100] bg-[#08080C]/90 flex flex-col items-center justify-center pointer-events-auto"
+          >
+            <button 
+              className="absolute top-6 right-6 p-4 text-[#5A5A70] hover:text-white transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <ul className="text-center space-y-8 text-2xl font-bold uppercase tracking-widest text-white">
+              {['Services', 'Solutions', 'Clients', 'Support'].map((item) => (
+                <motion.li key={item} whileHover={{ scale: 1.1, color: '#0A84FF' }}>
+                  <a href="#" onClick={() => setIsMobileMenuOpen(false)}>{item}</a>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ─────────────────────────────────────────────
           CUSTOMIZATION PANEL
@@ -224,10 +272,10 @@ export default function App() {
 
           <motion.div variants={fadeUp} className="flex gap-3 pt-1">
             <button className="btn-primary">
-              Get Started <ArrowRight className="ml-2 h-4 w-4 inline-block" />
+              Request Site Survey <ArrowRight className="ml-2 h-4 w-4 inline-block" />
             </button>
             <button className="btn-secondary">
-              Learn More
+              ROI Calculator
             </button>
           </motion.div>
 
@@ -243,6 +291,15 @@ export default function App() {
             <div className="stat-pill">
               <span className="stat-value">24hr</span>
               <span className="stat-label">Response</span>
+            </div>
+          </motion.div>
+
+          <motion.div variants={fadeUp} className="pt-6 border-t border-white/05 mt-6 w-full">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-[#5A5A70] mb-3">Trusted by Enterprise Hubs</p>
+            <div className="flex gap-6 opacity-60 mix-blend-screen text-xs font-mono tracking-widest font-bold text-white">
+              <span>ALBION</span>
+              <span>WEWORK</span>
+              <span>EQUINOX</span>
             </div>
           </motion.div>
         </motion.div>
@@ -330,7 +387,7 @@ export default function App() {
           ═════════════════════════════════════════════ */}
       <section className="relative min-h-[100svh] flex flex-col justify-end md:justify-center py-24 md:py-36 px-6 lg:px-20 z-10 pointer-events-none">
         <motion.div
-          className="max-w-[480px] pointer-events-auto space-y-8 md:space-y-10 bg-[#08080C]/70 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-0 rounded-3xl border border-white/5 md:border-transparent"
+          className="max-w-[480px] pointer-events-auto space-y-8 md:space-y-10 bg-[#08080C]/70 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-0 rounded-3xl border border-white/5 md:border-transparent md:ml-auto"
           variants={stagger}
           initial="hidden"
           whileInView="visible"
